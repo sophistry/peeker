@@ -52,8 +52,17 @@ Quickstart
 <h1>Peeker Quickstart</h1>
 
 <h2>IMAP examples</h2>
-<p>First, make sure your PHP install has the imap extension (run phpinfo() and search for imap). Place all the Peeker files in the application/libraries directory.</p>
-<p>Create a new controller function with this code (change login info to your IMAP login).</p>
+<p>First, make sure your PHP install has the imap extension (run phpinfo() and search for imap).</p>
+<p>Note: this Quick Start assumes you are using Peeker as a <a href="http://codeigniter.com">CodeIgniter</a> library.  If you are using Codeigniter, just place all the Peeker files in the application/libraries directory and load the library using CI's $this->load->library('peeker') method.</p> 
+<p>However, Peeker <em>can</em> work as a standalone set of classes. Just use the PHP "include" command like this: <code>include('peeker.php');</code> and modify the syntax for the examples below to use regular PHP Object Oriented coding.</p> 
+<p>So, instead of <code>$this->load->library('peeker', $config);<br />
+// call a method on the CI peeker object <br />
+$this->peeker->somefunction();</code> just do 
+<code>$peeker = new peeker($config); <br />
+// call method on the regular PHP peeker object <br />
+$peeker->somefunction();
+</code></p>
+<p>First, create a new controller function with this code (change login info to match your IMAP login).</p>
 
 <code>
 	// this shows basic IMAP, no TLS required<br />
@@ -143,7 +152,7 @@ $this->peeker->close(TRUE);</code>
 
 <h2>Some Message Object Functions</h2>
 
-<p>This is a selection of Peeker Message Object functions (available in the message object) - it is not a complete listing, but it shows enough to let you get a lot of stuff done.</p>
+<p>This is a selection of Peeker Message Object functions (available in the message object) - it is not a complete listing, but it shows enough to let you get a taste of what's possible. A complete listing is available in the <a href="peeker_header.html">Peeker Header</a>, the <a href="peeker_body.html">Peeker Body</a>, the <a href="peeker_parts.html">Peeker Parts</a>, or the <a href="peeker_file.html">Peeker File</a> documentation.</p>
 
 <p class="important"><strong>Important:</strong>&nbsp; Call the following functions using the message object returned by <dfn>$this->peeker->get_message()</dfn>. In these examples it is called <var>$e</var>.</p>
 
