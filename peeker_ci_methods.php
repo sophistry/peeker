@@ -9,7 +9,7 @@
 class peeker_ci_methods
 {
 	// hold the codeigniter object
-	var $CI
+	public $CI
 	
 	// create the link between this 
 	// class and the base layer
@@ -41,7 +41,7 @@ class peeker_ci_methods
 	* this is usually called right after a check of approved senders
 	* this is in CI lib so we can talk to CI db stack
 	*/
-	function unknown_sender_appeal($list_name)
+	public function unknown_sender_appeal($list_name)
 	{
 		// $list_name should not be the mailing address, but
 		
@@ -99,7 +99,7 @@ class peeker_ci_methods
 	* remove any address that has a tag
 	*
 	*/
-	function remove_registered_from_resend_to($tag='')
+	public function remove_registered_from_resend_to($tag='')
 	{
 		// because of the way the resend_to stripping works
 		// it was easier just to load up two independent detectors
@@ -121,7 +121,7 @@ class peeker_ci_methods
 	* this will overwrite any file
 	* returns TRUE if file was created
 	*/
-	function save_HTML_as_view_file($view_file='HTML.html')
+	public function save_HTML_as_view_file($view_file='HTML.html')
 	{
 		// put the file into the views dir
 		// make sure the directory exists
@@ -157,7 +157,7 @@ class peeker_ci_methods
 	* data into the view here
 	*
 	*/
-	function load_email_as_view($view_file='HTML.html')
+	public function load_email_as_view($view_file='HTML.html')
 	{
 		// connect to the CI stack
 		$this->CI =& get_instance();

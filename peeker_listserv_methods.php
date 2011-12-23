@@ -9,16 +9,16 @@
 */
 class peeker_listserv_methods
 {
-	var $list_address;
-	var $resend_to_array = array(); // simple email address array
-	var $resend_cc_array = array(); // for using in the headers to show who else was CC'd
-	var $approved_array = array(); // these email addresses are approved
+	public $list_address;
+	public $resend_to_array = array(); // simple email address array
+	public $resend_cc_array = array(); // for using in the headers to show who else was CC'd
+	public $approved_array = array(); // these email addresses are approved
 	
 	// default NULL is required here 
 	// because the code stores this
 	// in case there are multiple calls
 	// to the approved_sender check
-	var $approved_sender = NULL;
+	public $approved_sender = NULL;
 	
 	// create the link between this 
 	// class and the base layer
@@ -47,7 +47,7 @@ class peeker_listserv_methods
 	* set the email address for this list resender
 	*
 	*/
-	function set_list_address($add)
+	public function set_list_address($add)
 	{
 		$this->list_address = $add;
 		return TRUE;
@@ -57,7 +57,7 @@ class peeker_listserv_methods
 	* return the list address
 	*
 	*/
-	function get_list_address()
+	public function get_list_address()
 	{
 		return $this->list_address;
 	}
@@ -66,7 +66,7 @@ class peeker_listserv_methods
 	* set the array
 	*
 	*/
-	function set_resend_to($arr)
+	public function set_resend_to($arr)
 	{
 		$this->resend_to_array = $arr;
 		return TRUE;
@@ -77,7 +77,7 @@ class peeker_listserv_methods
 	* this class will resend to
 	*
 	*/
-	function get_resend_to()
+	public function get_resend_to()
 	{
 		return $this->resend_to_array;
 	}
@@ -86,7 +86,7 @@ class peeker_listserv_methods
 	* set the array
 	*
 	*/
-	function set_resend_cc($arr)
+	public function set_resend_cc($arr)
 	{
 		$this->resend_cc_array = $arr;
 		return TRUE;
@@ -97,7 +97,7 @@ class peeker_listserv_methods
 	* the one in the message object
 	*
 	*/
-	function carryover_cc()
+	public function carryover_cc()
 	{
 		//p($this->cc);
 		$cc_array = $this->that->get_cc_array();
@@ -112,7 +112,7 @@ class peeker_listserv_methods
 	* this class will resend to
 	*
 	*/
-	function get_resend_cc()
+	public function get_resend_cc()
 	{
 		return $this->resend_cc_array;
 	}
@@ -121,7 +121,7 @@ class peeker_listserv_methods
 	* append an address to the resent_to_array
 	*
 	*/
-	function append_to_resend_to($address)
+	public function append_to_resend_to($address)
 	{
 		$this->resend_to_array[] = $address;
 	}
@@ -131,7 +131,7 @@ class peeker_listserv_methods
 	* remove an address from the resend_to_array
 	*
 	*/
-	function remove_from_resend_to($address)
+	public function remove_from_resend_to($address)
 	{
 		$stripped_resend_to_array = array();
 		$rsta = $this->get_resend_to();
@@ -153,7 +153,7 @@ class peeker_listserv_methods
 	* set the array
 	*
 	*/
-	function set_approved($arr)
+	public function set_approved($arr)
 	{
 		$this->approved_array = $arr;
 		return TRUE;
@@ -164,7 +164,7 @@ class peeker_listserv_methods
 	* this class will resend to
 	*
 	*/
-	function get_approved()
+	public function get_approved()
 	{
 		return $this->approved_array;
 	}
@@ -173,7 +173,7 @@ class peeker_listserv_methods
 	* append an address to the approved_array
 	*
 	*/
-	function append_to_approved($address)
+	public function append_to_approved($address)
 	{
 		$this->approved_array[] = $address;
 	}
@@ -188,7 +188,7 @@ class peeker_listserv_methods
 	* that avoids the in_array() check
 	* and the log_state() call
 	*/
-	function approved_sender()
+	public function approved_sender()
 	{
 		//pe($this->that);
 		if (is_null($this->approved_sender))
@@ -209,7 +209,7 @@ class peeker_listserv_methods
 	}
 	
 	
-	function not_approved_sender_and_is_bounce_message()
+	public function not_approved_sender_and_is_bounce_message()
 	{
 		return (! $this->approved_sender() && $this->is_bounce_message());
 	}
@@ -223,7 +223,7 @@ class peeker_listserv_methods
 	* bounce detector
 	*
 	*/
-	function is_bounce_message()
+	public function is_bounce_message()
 	{
 		// check Return-Path header line
 		// for "no return path" indicator <>
@@ -253,7 +253,7 @@ class peeker_listserv_methods
 	* to PLAIN or HTML properties
 	*/
 	
-	function already_appended($pattern)
+	public function already_appended($pattern)
 	{
 		return (bool)($this->that->preg_match_PLAIN($pattern) OR $this->that->preg_match_HTML($pattern)); 
 	}
@@ -270,7 +270,7 @@ class peeker_listserv_methods
 	* be different, and this would override that order
 	*
 	*/
-	function resend_email()
+	public function resend_email()
 	{	
 		// figure out how to compose the body
 		if ($this->that->HTML!='')
@@ -310,7 +310,7 @@ class peeker_listserv_methods
 	* for the message to get through
 	*
 	*/
-	function strip_resend_to_email_if_also_in_cc()
+	public function strip_resend_to_email_if_also_in_cc()
 	{
 		// NOTE: only deals with first CC!
 		$add = $this->that->get_address_cc();
@@ -318,14 +318,14 @@ class peeker_listserv_methods
 	}
 	
 	// wrapper
-	function get_address_from()
+	public function get_address_from()
 	{
 		$arr = $this->that->get_from_array('mailbox@host');
 		return $arr[0];
 	}
 	
 	// wrapper
-	function get_personal_from()
+	public function get_personal_from()
 	{
 		$arr = $this->that->get_from_array('personal');
 		return $arr[0];
@@ -341,7 +341,7 @@ class peeker_listserv_methods
 	* before the email gets sent out
 	*
 	*/
-	function strip_subject_add_recipient($arr)
+	public function strip_subject_add_recipient($arr)
 	{
 		$this->subject = str_replace($arr['strip'], '',$this->get_subject());
 		//p($arr['to']);pe($this->subject);	

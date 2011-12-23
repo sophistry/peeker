@@ -24,85 +24,85 @@ include_once('peeker_layers.php');
 class peeker_header extends peeker_layers{
 
 	// the spawning parent
-	var $peek_parent;
+	public $peek_parent;
 	// the resource - used to manipulate messages
 	// passed to constructor because the instance is spawned
 	// into a collection rather than inherited
-	var $res;
+	public $res;
 	// the message id as it came in (not unique)
 	// treat as a temporary id
-	var $Msgno; 
+	public $Msgno; 
 	
 	// these are all properties of the email message
 	// that can be gleaned from the header data
 	
 	// standardized date string RFC822
-	var $date;
-	var $subject; // decoded subject
-	var $raw_subject; // undecoded subject
-	var $message_id; // raw message_id header
+	public $date;
+	public $subject; // decoded subject
+	public $raw_subject; // undecoded subject
+	public $message_id; // raw message_id header
 	
 	// address fields as strings - 1024 character limit
-	var $toaddress;
-	var $fromaddress;
-	var $reply_toaddress;
-	var $senderaddress;
-	var $ccaddress;
-	var $bccaddress;
-	var $return_pathaddress;
+	public $toaddress;
+	public $fromaddress;
+	public $reply_toaddress;
+	public $senderaddress;
+	public $ccaddress;
+	public $bccaddress;
+	public $return_pathaddress;
 	
-	var $remail; // address for remailing - experimental
+	public $remail; // address for remailing - experimental
 	
 	// address fields as arrays	
-	var $to;
-	var $from;
-	var $reply_to;
-	var $sender;
-	var $cc;
-	var $bcc;
-	var $return_path;
+	public $to;
+	public $from;
+	public $reply_to;
+	public $sender;
+	public $cc;
+	public $bcc;
+	public $return_path;
 
-	var $Size; // in bytes
-	var $udate; // unix timestamp
+	public $Size; // in bytes
+	public $udate; // unix timestamp
 	
-	var $in_reply_to; // a reference to another email message
-	var $followup_to; // a reference to another email message
-	var $references; // a reference to another email message
+	public $in_reply_to; // a reference to another email message
+	public $followup_to; // a reference to another email message
+	public $references; // a reference to another email message
 	
 	// flags for IMAP - descriptions from http://php.net/imap_headerinfo 
-	var $Recent; // R if recent and seen, N if recent and not seen, ' ' if not recent.
-	var $Unseen; // U if not seen AND not recent, ' ' if seen OR not seen and recent
-	var $Flagged; // F if flagged, ' ' if not flagged
-	var $Answered; // A if answered, ' ' if unanswered
-	var $Deleted; // D if deleted, ' ' if not deleted
-	var $Draft; // X if draft, ' ' if not draft
+	public $Recent; // R if recent and seen, N if recent and not seen, ' ' if not recent.
+	public $Unseen; // U if not seen AND not recent, ' ' if seen OR not seen and recent
+	public $Flagged; // F if flagged, ' ' if not flagged
+	public $Answered; // A if answered, ' ' if unanswered
+	public $Deleted; // D if deleted, ' ' if not deleted
+	public $Draft; // X if draft, ' ' if not draft
 	
 	// the raw header string
-	var $header_string;
+	public $header_string;
 	// header string converted to nested arrays
-	var $header_array;
+	public $header_array;
 	
 	// fingerprint data point sources
 	// use these email strings to generate 
 	// a "good enough" fingerprint to id dupes
 	// also use this unique fingerprint to 
 	// create a directory for saving attachments
-	var $fingerprint_sources = array('fromaddress', 'toaddress', 'subject', 'date');
+	public $fingerprint_sources = array('fromaddress', 'toaddress', 'subject', 'date');
 	// md5 hash of sources data points
-	var $fingerprint = ''; 
+	public $fingerprint = ''; 
 	
 	// if marked for delete
 	// test this var before calling imap_ fns
-	var $mark_delete = FALSE;
+	public $mark_delete = FALSE;
 	
 	// store errors with names of imap functions for keys
-	var $error_array;
+	public $error_array;
 	
 	/**
 	* Constructor
 	* 
 	*/
-	function peeker_header(&$peek_parent, $imap_h_obj)
+	public function peeker_header(&$peek_parent, $imap_h_obj)
 	{
 		// host the connection to the IMAP server
 		// and allow these classes to target functions
@@ -134,7 +134,7 @@ class peeker_header extends peeker_layers{
 	*
 	*/
 	
-	function _set_class_vars($obj)
+	public function _set_class_vars($obj)
     {
         $class = get_class($this);
         $class_vars = get_class_vars($class);
@@ -164,7 +164,7 @@ class peeker_header extends peeker_layers{
 	* applying any decoding
 	* could "salt" this...
 	*/
-	function _generate_email_fingerprint()
+	public function _generate_email_fingerprint()
 	{
 		foreach ($this->fingerprint_sources as $prop)
 		{
@@ -179,7 +179,7 @@ class peeker_header extends peeker_layers{
 	* inside this object 
 	*
 	*/
-	function _check_imap_errors($func)
+	public function _check_imap_errors($func)
 	{
 		$err = imap_errors();
 		if ($err !== FALSE) $this->error_array[$func] = $err;
@@ -190,7 +190,7 @@ class peeker_header extends peeker_layers{
 	* Get the fingerprint hash
 	*
 	*/ 
-	function get_fingerprint()
+	public function get_fingerprint()
 	{
 		return $this->fingerprint;
 	}
@@ -199,7 +199,7 @@ class peeker_header extends peeker_layers{
 	* Get the RFC822 date
 	* just returns the raw date as sent with the message
 	*/ 
-	function get_date()
+	public function get_date()
 	{
 		return $this->date;
 	}
@@ -209,7 +209,7 @@ class peeker_header extends peeker_layers{
 	* Get the subject
 	* Subject is sometimes encoded
 	*/ 
-	function get_subject()
+	public function get_subject()
 	{
 		return $this->subject;
 	}
@@ -218,7 +218,7 @@ class peeker_header extends peeker_layers{
 	* Get the temp message id assigned by the mail server
 	*
 	*/ 
-	function get_msgno()
+	public function get_msgno()
 	{
 		return $this->Msgno;
 	}
@@ -227,7 +227,7 @@ class peeker_header extends peeker_layers{
 	* Get the message id
 	*
 	*/ 
-	function get_message_id()
+	public function get_message_id()
 	{
 		return $this->message_id;
 	}
@@ -237,13 +237,13 @@ class peeker_header extends peeker_layers{
 	* which may contain multiple addresses in string
 	*
 	*/
-	function get_to() 			{return $this->_get_address_string('to');}
-	function get_from() 		{return $this->_get_address_string('from');}
-	function get_reply_to() 	{return $this->_get_address_string('reply_to');}
-	function get_sender() 		{return $this->_get_address_string('sender');}
-	function get_cc() 			{return $this->_get_address_string('cc');}
-	function get_bcc() 			{return $this->_get_address_string('bcc');}
-	function get_return_path() 	{return $this->_get_address_string('return_path');}
+	public function get_to() 			{return $this->_get_address_string('to');}
+	public function get_from() 		{return $this->_get_address_string('from');}
+	public function get_reply_to() 	{return $this->_get_address_string('reply_to');}
+	public function get_sender() 		{return $this->_get_address_string('sender');}
+	public function get_cc() 			{return $this->_get_address_string('cc');}
+	public function get_bcc() 			{return $this->_get_address_string('bcc');}
+	public function get_return_path() 	{return $this->_get_address_string('return_path');}
 	
 	/**
 	* Get the address
@@ -253,7 +253,7 @@ class peeker_header extends peeker_layers{
 	* This is like the get_address_array() fn
 	* but, it returns the raw string (mime decoded)
 	*/ 
-	function _get_address_string($in_type)
+	public function _get_address_string($in_type)
 	{
 		$type = strtolower($in_type).'address';
 		if (isset($this->$type))
@@ -274,13 +274,13 @@ class peeker_header extends peeker_layers{
 	* which may contain multiple addresses as items
 	*
 	*/
-	function get_to_array($format=NULL) {return $this->_get_address_array('to',$format);}
-	function get_from_array($format=NULL) {return $this->_get_address_array('from',$format);}
-	function get_reply_to_array($format=NULL) {return $this->_get_address_array('reply_to',$format);}
-	function get_sender_array($format=NULL) {return $this->_get_address_array('sender',$format);}
-	function get_cc_array($format=NULL) {return $this->_get_address_array('cc',$format);}
-	function get_bcc_array($format=NULL) {return $this->_get_address_array('bcc',$format);}
-	function get_return_path_array($format=NULL) {return $this->_get_address_array('return_path',$format);}
+	public function get_to_array($format=NULL) {return $this->_get_address_array('to',$format);}
+	public function get_from_array($format=NULL) {return $this->_get_address_array('from',$format);}
+	public function get_reply_to_array($format=NULL) {return $this->_get_address_array('reply_to',$format);}
+	public function get_sender_array($format=NULL) {return $this->_get_address_array('sender',$format);}
+	public function get_cc_array($format=NULL) {return $this->_get_address_array('cc',$format);}
+	public function get_bcc_array($format=NULL) {return $this->_get_address_array('bcc',$format);}
+	public function get_return_path_array($format=NULL) {return $this->_get_address_array('return_path',$format);}
 	
 	/**
 	* Get the address array for the message id and type
@@ -289,7 +289,7 @@ class peeker_header extends peeker_layers{
 	* so we decode each part here
 	* returns FALSE if there is no address type
 	*/ 
-	function _get_address_array($in_type, $format)
+	public function _get_address_array($in_type, $format)
 	{
 		$address_array = array();
 		$type = strtolower($in_type);
@@ -335,7 +335,7 @@ class peeker_header extends peeker_layers{
 	* Get the size of the message
 	* converted from Size
 	*/ 
-	function get_size()
+	public function get_size()
 	{
 		return $this->Size;
 	}
@@ -345,7 +345,7 @@ class peeker_header extends peeker_layers{
 	* Get the unix timestamp on the message
 	* converted from udate field
 	*/ 
-	function get_udate()
+	public function get_udate()
 	{
 		return $this->udate;
 	}
@@ -353,7 +353,7 @@ class peeker_header extends peeker_layers{
 	/**
 	* alias to get_udate
 	*/
-	function get_timestamp() 
+	public function get_timestamp() 
 	{
 		return $this->get_udate();
 	}
@@ -363,7 +363,7 @@ class peeker_header extends peeker_layers{
 	* all kinds of good data in here
 	* that is not available in imap_fetchheader()
 	*/ 
-	function get_header_string()
+	public function get_header_string()
 	{
 		return $this->header_string;
 	}
@@ -374,7 +374,7 @@ class peeker_header extends peeker_layers{
 	* all kinds of good data in here
 	* that is not available in imap_fetchheader()
 	*/ 
-	function get_header_array()
+	public function get_header_array()
 	{
 		return $this->header_array;
 	}
@@ -388,7 +388,7 @@ class peeker_header extends peeker_layers{
 	* Note: sometimes header items will be arrays
 	* eg. Received header is usually an array
 	*/ 
-	function get_header_item($header_key)
+	public function get_header_item($header_key)
 	{
 		$h = FALSE;
 		if (isset($this->header_array[$header_key])) 
@@ -408,7 +408,7 @@ class peeker_header extends peeker_layers{
 	* for the function name that
 	* triggered the error
 	*/ 
-	function get_error_array()
+	public function get_error_array()
 	{
 		return $this->error_array;
 	}
@@ -417,7 +417,7 @@ class peeker_header extends peeker_layers{
 	* Return mark_delete
 	* 
 	*/ 
-	function get_mark_delete()
+	public function get_mark_delete()
 	{
 		return $this->mark_delete;
 	}
@@ -426,7 +426,7 @@ class peeker_header extends peeker_layers{
 	* Mark this object as deleted
 	* 
 	*/ 
-	function set_mark_delete($delete)
+	public function set_mark_delete($delete)
 	{
 		$this->mark_delete = $delete;
 		return $this->mark_delete;
@@ -440,7 +440,7 @@ class peeker_header extends peeker_layers{
 	* message to the peek_parent
 	*
 	*/
-	function detectors_abort($state=TRUE)
+	public function detectors_abort($state=TRUE)
 	{
 		$this->peek_parent->detectors_abort($state);
 	}
@@ -449,7 +449,7 @@ class peeker_header extends peeker_layers{
 	* abort, do action array items if called for
 	* right now only delete is possible
 	*/
-	function abort($action_array=FALSE)
+	public function abort($action_array=FALSE)
 	{
 		$del = FALSE;
 		if (isset($action_array['delete']) && $action_array['delete'] === TRUE)
@@ -467,7 +467,7 @@ class peeker_header extends peeker_layers{
 	*
 	*
 	*/
-	function abort_if_previous($action_array=FALSE)
+	public function abort_if_previous($action_array=FALSE)
 	{
 		if ($this->peek_parent->_get_previous_detector_state())
 		{
@@ -482,7 +482,7 @@ class peeker_header extends peeker_layers{
 	* return TRUE all the time
 	* for testing
 	*/
-	function ttrue($arg) 
+	public function ttrue($arg) 
 	{		
 		return TRUE;
 	}
@@ -491,7 +491,7 @@ class peeker_header extends peeker_layers{
 	* return FALSE all the time
 	* for testing
 	*/
-	function ffalse($arg) 
+	public function ffalse($arg) 
 	{		
 		return FALSE;
 	}
@@ -500,7 +500,7 @@ class peeker_header extends peeker_layers{
 	* return whatever was sent in
 	* for testing
 	*/
-	function reflect($arg) 
+	public function reflect($arg) 
 	{		
 		return $arg;
 	}
@@ -509,7 +509,7 @@ class peeker_header extends peeker_layers{
 	* true if Msgno property is equal to arg
 	* 
 	*/
-	function is_msgno($msgno) 
+	public function is_msgno($msgno) 
 	{
 		return $this->Msgno == $msgno;
 	}
@@ -518,7 +518,7 @@ class peeker_header extends peeker_layers{
 	* true if regex $pattern matches the field
 	* return TRUE or FALSE, not int like preg_match
 	*/
-	function preg_match_field($arr) 
+	public function preg_match_field($arr) 
 	{
 		list($field,$pattern) = $arr;
 		return (bool)preg_match($pattern, $this->$field);
@@ -530,7 +530,7 @@ class peeker_header extends peeker_layers{
 	* cf array_key_exists() if you need
 	* a key exists test without the NULL check
 	*/
-	function isset_header_array_key($key) 
+	public function isset_header_array_key($key) 
 	{
 		return isset($this->header_array[$key]);
 	}
@@ -539,7 +539,7 @@ class peeker_header extends peeker_layers{
 	* true if regex $pattern matches the header entry
 	* return TRUE or FALSE, not int like preg_match
 	*/
-	function preg_match_header_array_key($array) 
+	public function preg_match_header_array_key($array) 
 	{		
 		list($key, $pattern) = $array;
 		if ($this->isset_header_array_key($key))
@@ -557,7 +557,7 @@ class peeker_header extends peeker_layers{
 	* true if header property is empty
 	* 
 	*/
-	function empty_property($property) 
+	public function empty_property($property) 
 	{
 		$e = empty($this->$property);
 		if ($e) $this->log_state('EMPTY '.$property .' in msg #'.$this->Msgno);
@@ -569,7 +569,7 @@ class peeker_header extends peeker_layers{
 	* true if undecoded fromaddress has a given string in it
 	* Case-insensitive.
 	*/
-	function in_from($from_str)
+	public function in_from($from_str)
 	{
 		return strpos(strtolower($this->fromaddress),strtolower($from_str))!==FALSE;
 	}
@@ -578,7 +578,7 @@ class peeker_header extends peeker_layers{
 	* true if undecoded toaddress has a given string in it
 	* Case-insensitive.
 	*/
-	function in_to($to_str)
+	public function in_to($to_str)
 	{
 		return strpos(strtolower($this->toaddress),strtolower($to_str))!==FALSE;
 	}
@@ -595,7 +595,7 @@ class peeker_header extends peeker_layers{
 	* optional parameter lets detectors abort
 	* on this delete as well
 	*/
-	function set_delete($abort=FALSE)
+	public function set_delete($abort=FALSE)
 	{
 		if($this->Msgno > 0)
 		{
@@ -616,7 +616,7 @@ class peeker_header extends peeker_layers{
 	* allows removing messages from
 	* the delete state
 	*/
-	function undelete()
+	public function undelete()
 	{
 		$this->set_mark_delete(FALSE);
 		imap_undelete($this->peek_parent->resource, $this->Msgno);
@@ -628,7 +628,7 @@ class peeker_header extends peeker_layers{
 	* flag seen, then move message to another mailbox
 	* helps us remember to flag, then move
 	*/
-	function flag_seen()
+	public function flag_seen()
 	{
 		$this->flag_mail('\Seen');
 	}
@@ -637,7 +637,7 @@ class peeker_header extends peeker_layers{
 	* move a message to another mailbox
 	*
 	*/
-	function move_mail($mailbox_name)
+	public function move_mail($mailbox_name)
 	{
 		$this->peek_parent->move_mail($this->Msgno, $mailbox_name);
 		$this->log_state('Moved message #'.$this->Msgno . ' to '. $mailbox_name);
@@ -648,7 +648,7 @@ class peeker_header extends peeker_layers{
 	* flag seen, then move message to another mailbox
 	* helps us remember to flag, then move
 	*/
-	function flag_seen_move_mail($mailbox_name)
+	public function flag_seen_move_mail($mailbox_name)
 	{
 		$this->flag_seen();
 		$this->move_mail($mailbox_name);
@@ -663,7 +663,7 @@ class peeker_header extends peeker_layers{
 	* Default to TRUE flag_state, set FALSE
 	* to remove the flag
 	*/
-	function flag_mail($flag_string,$flag_state=TRUE)
+	public function flag_mail($flag_string,$flag_state=TRUE)
 	{
 		$this->peek_parent->flag_mail($this->Msgno, $flag_string, $flag_state);
 		$this->log_state('Flagged message #'.$this->Msgno . ' as '. $flag_string . (string)$flag_state);
@@ -677,7 +677,7 @@ class peeker_header extends peeker_layers{
 	* removes peek_parent property
 	* 
 	*/
-	function _print($d=NULL)
+	public function _print($d=NULL)
 	{
 		if ($d===NULL) $d = $this;
 		// don't display the peek parent property
@@ -689,7 +689,7 @@ class peeker_header extends peeker_layers{
 	* print the argument
 	*
 	*/
-	function pr($data)
+	public function pr($data)
 	{
 		$this->_print('PRINT: '.$data.' in message #'.$this->Msgno);
 	}
@@ -699,7 +699,7 @@ class peeker_header extends peeker_layers{
 	* assumes the property name 
 	* has an accessor function
 	*/
-	function print_field($fn, $use_html_entities=TRUE)
+	public function print_field($fn, $use_html_entities=TRUE)
 	{
 		$func = 'get_'.$fn;
 		$data = ($use_html_entities) ? htmlentities($this->$func()) : $this->$func();
@@ -711,7 +711,7 @@ class peeker_header extends peeker_layers{
 	* and optional nested sub-item
 	*
 	*/
-	function print_array($arr)
+	public function print_array($arr)
 	{
 		list($fn,$sub_fn) = $arr;
 		$func = 'get_'.$fn;
@@ -731,7 +731,7 @@ class peeker_header extends peeker_layers{
 	* already in the subject
 	*
 	*/
-	function prepend_subject($prepend_string)
+	public function prepend_subject($prepend_string)
 	{
 		$subj = $this->get_subject();
 		if (strpos($subj,$prepend_string)===FALSE)
@@ -756,7 +756,7 @@ class peeker_header extends peeker_layers{
 	* inside the detector loop
 	*
 	*/
-	function message_count()
+	public function message_count()
 	{
 		return $this->peek_parent->get_message_count();
 	}
@@ -768,7 +768,7 @@ class peeker_header extends peeker_layers{
 	* loop
 	*
 	*/
-	function log_state($str)
+	public function log_state($str)
 	{
 		$this->peek_parent->log_state($str);
 	}
@@ -780,7 +780,7 @@ class peeker_header extends peeker_layers{
 	* inside a message acquisition loop
 	*
 	*/
-	function expunge()
+	public function expunge()
 	{
 		$this->peek_parent->expunge();
 	}

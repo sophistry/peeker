@@ -11,8 +11,8 @@
 class peeker_db_methods
 {
 	// hold the codeigniter object
-	var $CI
-	var $email_table = 'email';
+	public $CI
+	public $email_table = 'email';
 	
 	// create the link between this->that 
 	// class and the base layer
@@ -41,7 +41,7 @@ class peeker_db_methods
 	* insert one message into one table
 	* table needs fields named header and body
 	*/
-	function insert_one()
+	public function insert_one()
 	{
 		$header_string = $this->that->get_header_string();
 		$plain = $this->that->get_plain();
@@ -59,7 +59,7 @@ class peeker_db_methods
 	* existing set up
 	* 
 	*/
-	function get_email_as_array()
+	public function get_email_as_array()
 	{
 		// we are going to return this->that 
 		// array with all the email data

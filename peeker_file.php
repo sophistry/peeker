@@ -11,21 +11,21 @@
 
 class peeker_file{
 	
-	var $filename;
-	var $string;
-	var $encoding;
-	var $part_no;
-	var $cid;
-	var $disposition;
-	var $bytes;
-	var $type;
-	var $subtype;
+	public $filename;
+	public $string;
+	public $encoding;
+	public $part_no;
+	public $cid;
+	public $disposition;
+	public $bytes;
+	public $type;
+	public $subtype;
 	
 	/**
 	* Constructor
 	* 
 	*/
-	function peeker_file($assoc_array)
+	public function peeker_file($assoc_array)
 	{
 		// set the properties based on the incoming array
 		foreach ($assoc_array as $key => $value)
@@ -38,7 +38,7 @@ class peeker_file{
 	* access the filename
 	* 
 	*/
-	function get_filename()
+	public function get_filename()
 	{
 		return $this->filename;
 	}
@@ -47,7 +47,7 @@ class peeker_file{
 	* access the data string
 	* 
 	*/
-	function get_string()
+	public function get_string()
 	{
 		return $this->string;
 	}
@@ -56,7 +56,7 @@ class peeker_file{
 	* access
 	* 
 	*/
-	function get_encoding()
+	public function get_encoding()
 	{
 		return $this->encoding;
 	}
@@ -65,7 +65,7 @@ class peeker_file{
 	* access
 	* 
 	*/
-	function get_part_no()
+	public function get_part_no()
 	{
 		return $this->part_no;
 	}
@@ -74,7 +74,7 @@ class peeker_file{
 	* access
 	* 
 	*/
-	function get_cid()
+	public function get_cid()
 	{
 		return $this->cid;
 	}
@@ -83,7 +83,7 @@ class peeker_file{
 	* access
 	* 
 	*/
-	function get_disposition()
+	public function get_disposition()
 	{
 		return $this->disposition;
 	}
@@ -92,7 +92,7 @@ class peeker_file{
 	* access
 	* 
 	*/
-	function get_bytes()
+	public function get_bytes()
 	{
 		return $this->bytes;
 	}
@@ -101,7 +101,7 @@ class peeker_file{
 	* access
 	* 
 	*/
-	function get_type()
+	public function get_type()
 	{
 		return $this->type;
 	}
@@ -113,7 +113,7 @@ class peeker_file{
 	* could standardize on input...
 	* 
 	*/
-	function get_subtype()
+	public function get_subtype()
 	{
 		$st = strtolower($this->subtype);
 		// reformat to standardize
@@ -133,7 +133,7 @@ class peeker_file{
 	* in HTML inline
 	* 
 	*/
-	function has_cid()
+	public function has_cid()
 	{
 		return (bool)$this->get_cid();
 	}

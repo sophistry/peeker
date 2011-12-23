@@ -18,19 +18,19 @@ include_once('peeker_file.php');// the spawn
 
 class peeker_parts extends peeker_body{
 	
-	var $parts_array = array();
-	var $parts_count;
+	public $parts_array = array();
+	public $parts_count;
 	
 	// holds any files written to disk
 	// by save_all_attachments() function
-	var $local_file_name_array = array();
-	var $local_file_name_count;
+	public $local_file_name_array = array();
+	public $local_file_name_count;
 	
 	/**
 	* Constructor, connect to parent class
 	* 
 	*/
-	function peeker_parts(&$peek_parent, $imap_h_obj)
+	public function peeker_parts(&$peek_parent, $imap_h_obj)
 	{
 		// pass the parent on to the header class
 		parent::peeker_body($peek_parent, $imap_h_obj);
@@ -41,7 +41,7 @@ class peeker_parts extends peeker_body{
 	* Wrapper, pass on to parent class
 	* 
 	*/
-	function get_parts()
+	public function get_parts()
 	{
 		$this->get_body();
 	}
@@ -56,7 +56,7 @@ class peeker_parts extends peeker_body{
 	* from http://php.net
 	*
 	*/
-	function extract_parts($structure_parts_array, $part_no = NULL, $recurse_part_no=NULL)
+	public function extract_parts($structure_parts_array, $part_no = NULL, $recurse_part_no=NULL)
 	{	
 		//pe($structure_parts_array);
 		// we are in a recursion section
@@ -254,7 +254,7 @@ class peeker_parts extends peeker_body{
 	* access the count
 	*
 	*/
-	function get_parts_count()
+	public function get_parts_count()
 	{
 		return $this->parts_count;
 	}
@@ -263,7 +263,7 @@ class peeker_parts extends peeker_body{
 	* access the array
 	*
 	*/
-	function get_parts_array()
+	public function get_parts_array()
 	{
 		return $this->parts_array;
 	}
@@ -275,7 +275,7 @@ class peeker_parts extends peeker_body{
 	* looks at the parts_array to determine
 	*
 	*/
-	function has_attachment()
+	public function has_attachment()
 	{
 		return (bool)$this->parts_count;
 	}
@@ -286,7 +286,7 @@ class peeker_parts extends peeker_body{
 	* looks at the parts_array to determine
 	*
 	*/
-	function has_at_least_one_attachment_with_disposition($disp)
+	public function has_at_least_one_attachment_with_disposition($disp)
 	{
 		if ($this->has_attachment())
 		{
@@ -309,7 +309,7 @@ class peeker_parts extends peeker_body{
 	* subtype uses shortest indicator eg. jpg not jpeg
 	*
 	*/
-	function has_at_least_one_attachment($subtype)
+	public function has_at_least_one_attachment($subtype)
 	{		
 		if ($this->has_attachment())
 		{
@@ -332,7 +332,7 @@ class peeker_parts extends peeker_body{
 	* rewrites the specified string with new appended text
 	*
 	*/
-	function insert_HTML($str)
+	public function insert_HTML($str)
 	{
 		// going to have to fix some broken HTML here
 		// to be able to insert the HTML where we want to
@@ -356,7 +356,7 @@ class peeker_parts extends peeker_body{
 	* rewrites the specified string with new appended text
 	*
 	*/
-	function insert_PLAIN($str)
+	public function insert_PLAIN($str)
 	{
 		$this->PLAIN_rewritten = $this->PLAIN . $str;
 		//pe($this->PLAIN_rewritten);
@@ -368,7 +368,7 @@ class peeker_parts extends peeker_body{
 	* to point to imgs via img src URL rather than cid:
 	*
 	*/
-	function rewrite_html_transform_img_tags($base_url='')
+	public function rewrite_html_transform_img_tags($base_url='')
 	{
 		$cid_array = array();
 		$file_path_array = array();
@@ -398,7 +398,7 @@ class peeker_parts extends peeker_body{
 	* with its own header, only send the first one
 	*
 	*/
-	function render_first_jpeg()
+	public function render_first_jpeg()
 	{	
 		foreach ($this->parts_array as $p)
 		{
@@ -425,7 +425,7 @@ class peeker_parts extends peeker_body{
 	/**
 	* save the header string
 	*/
-	function save_header_string($file_name='header_string.txt')
+	public function save_header_string($file_name='header_string.txt')
 	{
 		// if there is no immediate dir, make one from the fingerprint
 		$dir = $this->_make_dir($this->peek_parent->attachment_dir . $this->get_fingerprint());
@@ -436,7 +436,7 @@ class peeker_parts extends peeker_body{
 	/**
 	* save the body string
 	*/
-	function save_body_string($file_name='body_string.txt')
+	public function save_body_string($file_name='body_string.txt')
 	{
 		// if there is no immediate dir, make one from the fingerprint
 		$dir = $this->_make_dir($this->peek_parent->attachment_dir . $this->get_fingerprint());
@@ -447,7 +447,7 @@ class peeker_parts extends peeker_body{
 	/**
 	* save the PLAIN part
 	*/
-	function save_PLAIN($file_name='PLAIN.txt')
+	public function save_PLAIN($file_name='PLAIN.txt')
 	{
 		// if there is no immediate dir, make one from the fingerprint
 		$dir = $this->_make_dir($this->peek_parent->attachment_dir . $this->get_fingerprint());
@@ -458,7 +458,7 @@ class peeker_parts extends peeker_body{
 	/**
 	* save the HTML part
 	*/
-	function save_HTML($file_name='HTML.html')
+	public function save_HTML($file_name='HTML.html')
 	{
 		// if there is no immediate dir, make one from the fingerprint
 		$dir = $this->_make_dir($this->peek_parent->attachment_dir . $this->get_fingerprint());
@@ -471,7 +471,7 @@ class peeker_parts extends peeker_body{
 	* iterate the parts_array ignoring the junk
 	* $dir should end in slash
 	*/
-	function save_all_attachments($dir=NULL)
+	public function save_all_attachments($dir=NULL)
 	{
 		// if there is no immediate dir, make one from the fingerprint
 		if ($dir===NULL)
@@ -525,7 +525,7 @@ class peeker_parts extends peeker_body{
 	* uses array_map and glob 
 	* added 20110809
 	*/
-	function delete_all_attachments($path=NULL)
+	public function delete_all_attachments($path=NULL)
 	{
 		$path = ($path===NULL) ? $this->peek_parent->get_attachment_dir() . $this->get_fingerprint() : $path;
 		
@@ -553,7 +553,7 @@ class peeker_parts extends peeker_body{
 	* use get_parts_array() method to get original filenames
 	*
 	*/
-	function get_local_file_name_array()
+	public function get_local_file_name_array()
 	{
 		return $this->local_file_name_array;
 	}
@@ -566,7 +566,7 @@ class peeker_parts extends peeker_body{
 	* where we can store stuff
 	*
 	*/
-	function _make_dir($potential_name='') 
+	public function _make_dir($potential_name='') 
 	{		
 		if (!is_dir($potential_name)) mkdir($potential_name, 0777);
 		return rtrim($potential_name, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
@@ -576,7 +576,7 @@ class peeker_parts extends peeker_body{
 	 * Save messages on local disc, potential 
 	 * name and file lock collision here
 	 */ 
-	function _save_file($filename, $data)
+	public function _save_file($filename, $data)
 	{
 		$fp=fopen($filename,"w+");
 		$wrote = fwrite($fp,$data);

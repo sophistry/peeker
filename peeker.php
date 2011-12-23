@@ -25,12 +25,12 @@ class peeker extends peeker_connect{
 
 	// set TRUE to automatically expunge 
 	// deleted messages on close()
-	var $expunge_on_close 		= FALSE; 
+	public $expunge_on_close 		= FALSE; 
 
-	var $message_object_array 	= array();
-	var $start_id 				= 0; // requested or derived start id
-	var $end_id 				= 0; // requested or derived end id
-	var $current_id 			= 0; // incremented in the acquire loop
+	public $message_object_array 	= array();
+	public $start_id 				= 0; // requested or derived start id
+	public $end_id 					= 0; // requested or derived end id
+	public $current_id 				= 0; // incremented in the acquire loop
 	
 	// the message_class property
 	// allows the message class to be subclassed
@@ -43,16 +43,16 @@ class peeker extends peeker_connect{
 	// OR
 	// create a new class and use it for adding functions
 	// to be used by detectors and callbacks (see examples)
-	var $message_class 			= 'peeker_parts';
+	public $message_class 			= 'peeker_parts';
 	
 	// turn on and off detector circuits
 	// "global" switch for controlling all detectors
 	// default to off, create_detector() turns on
-	var $detectors_on 			= FALSE;
-	var $detector_set;
+	public $detectors_on 			= FALSE;
+	public $detector_set;
 	
 	// layers empty array by default, so no errors
-	var $layer_object_array 	= array();
+	public $layer_object_array 	= array();
 	
 	// directory for all the attachments to get stored
 	// if they are saved to the filesystem
@@ -61,26 +61,26 @@ class peeker extends peeker_connect{
 	// "plugin" because you can use this class without
 	// ever handling an attachment or dealing with files
 	// but, it may be simpler to keep it this way
-	var $attachment_dir 		= '';
+	public $attachment_dir 		= '';
 	
 	// hold the valid encodings 
 	// that mb functions can utilize
 	// in mime decoding technique
 	// these should be in utility, but keep them
 	// here for simplicity
-	var $valid_mb_encoding_array;
+	public $valid_mb_encoding_array;
 	
 	// handle search parameters and 
 	// the returned id list array
-	var $search;
-	var $id_list_from_search;
-	var $message_count_from_search = 0; // cf $message_count in parent class
+	public $search;
+	public $id_list_from_search;
+	public $message_count_from_search = 0; // cf $message_count in parent class
 	
 	/**
 	* Constructor
 	* 
 	*/
-	function peeker($init_array = NULL)
+	public function peeker($init_array = NULL)
 	{
 		// build the valid encodings once for mime decoding
 		// could cache this even further up the chain
@@ -96,7 +96,7 @@ class peeker extends peeker_connect{
 	* everything using the detector method parts()
 	* in the peek_mail_parts class
 	*/
-	function get_message($start, $end=NULL)
+	public function get_message($start, $end=NULL)
 	{
 		// set the message class to the parts class
 		// that just gets everything, this disturbs
@@ -121,7 +121,7 @@ class peeker extends peeker_connect{
 	* Also calls any detectors set up for messages
 	* $start required, $end is not
 	*/
-	function message($start, $end=NULL)
+	public function message($start, $end=NULL)
 	{
 		// protect the command from 
 		// using empty string like NULL
@@ -229,7 +229,7 @@ class peeker extends peeker_connect{
 	* and make sure they are not out of bounds
 	*
 	*/
-	function _set_start_and_end_ids($start=NULL,$end=NULL)
+	private function _set_start_and_end_ids($start=NULL,$end=NULL)
 	{
 		$this->log_state("Requested _set_start_and_end_ids($start,$end)");
 		
@@ -281,7 +281,7 @@ class peeker extends peeker_connect{
 	*
 	*
 	*/
-	function set_search($search='')
+	public function set_search($search='')
 	{
 		$this->search = $search;
 		$this->log_state('Setting search of (' . $this->mailbox . ') - to query: '.$this->search);
@@ -293,7 +293,7 @@ class peeker extends peeker_connect{
 	* Calling this function updates msg_count var
 	* and if there is a message found
 	*/
-	function search_and_count_messages($search='')
+	public function search_and_count_messages($search='')
 	{		
 		$this->log_state('Searching current mailbox (' . $this->mailbox . ') - query: '.$this->search);
 
@@ -318,7 +318,7 @@ class peeker extends peeker_connect{
 	* from the search
 	*
 	*/
-	function get_ids_from_search($index='')
+	public function get_ids_from_search($index='')
 	{
 		return ($index==='') ? $this->id_list_from_search : $this->id_list_from_search[$index];
 	}
@@ -334,7 +334,7 @@ class peeker extends peeker_connect{
 	* using the function decode_mime()
 	*
 	*/ 
-	function _extract_headers_to_array($header)
+	private function _extract_headers_to_array($header)
 	{
 		$header_array = explode("\n", rtrim($header));
 		// drop off any empty, null or FALSE values
@@ -417,7 +417,7 @@ class peeker extends peeker_connect{
 	* def_charset will be used to decode it.
 	* send it a MIME encoded header string
 	*/
-	function decode_mime($mime_str_in, $in_charset='utf-8', $target_charset='utf-8', $def_charset='iso-8859-1') 
+	public function decode_mime($mime_str_in, $in_charset='utf-8', $target_charset='utf-8', $def_charset='iso-8859-1') 
 	{
 		// valid encodings in lowercase array
 		$in_charset = strtolower($in_charset);
@@ -457,7 +457,7 @@ class peeker extends peeker_connect{
 	*
 	*
 	*/
-	function set_message_class($class_name)
+	public function set_message_class($class_name)
 	{
 		$this->message_class = $class_name;
 	}
@@ -467,7 +467,7 @@ class peeker extends peeker_connect{
 	* acquired in messages()
 	*
 	*/
-	function get_message_object($key='')
+	public function get_message_object($key='')
 	{
 		if ($key!=='') 
 		{
@@ -485,7 +485,7 @@ class peeker extends peeker_connect{
 	* the imap_clearflag_full() functions
 	* TODO: error checking on input
 	*/
-	function flag_mail($id_or_range, $flag_string, $set_flag = TRUE)
+	public function flag_mail($id_or_range, $flag_string, $set_flag = TRUE)
 	{
 		if ( $set_flag )
 		{
@@ -505,7 +505,7 @@ class peeker extends peeker_connect{
 	* wraps imap_mail_move() function
 	* This is only applicable to IMAP connections
 	*/
-	function move_mail($id_or_range, $mailbox_name)
+	public function move_mail($id_or_range, $mailbox_name)
 	{
 		$bool = imap_mail_move($this->resource,$id_or_range,$mailbox_name);
 		$this->log_state('Moved message: ' . $id_or_range . ' to mailbox ' . $mailbox_name);		
@@ -528,7 +528,7 @@ class peeker extends peeker_connect{
 	* it only cares about its own settings with regard to how 
 	* to handle message storage after a POP3 connection (see gmail settings tab)
 	*/
-	function delete_and_expunge($start_id_or_range, $end_id = '')
+	public function delete_and_expunge($start_id_or_range, $end_id = '')
 	{
 		// make sure we've got a message there of that id
 		// and it's not a bogus id like 0 or -1
@@ -573,7 +573,7 @@ class peeker extends peeker_connect{
 	* for deletion, must call expunge to remove them
 	*
 	*/
-	function delete($imap_range_string)
+	public function delete($imap_range_string)
 	{
 		if (is_resource($this->resource))
 		{	
@@ -592,7 +592,7 @@ class peeker extends peeker_connect{
 	* marked for deletion
 	*
 	*/
-	function expunge()
+	public function expunge()
 	{
 		if (is_resource($this->resource))
 		{	
@@ -614,7 +614,7 @@ class peeker extends peeker_connect{
 	* Overrides the parent class close() method
 	* to implement expunge facility
 	*/ 
-	function close($expunge_override=FALSE)
+	public function close($expunge_override=FALSE)
 	{
 		if (is_resource($this->resource))
 		{
@@ -651,7 +651,7 @@ class peeker extends peeker_connect{
 	* returns empty array if no messages
 	* SLOW: about 5 messages per second
 	*/
-	function fetch_overview($start=NULL, $end=NULL)
+	public function fetch_overview($start=NULL, $end=NULL)
 	{
 		// set start_id, end_id, and current_id
 		$this->_set_start_and_end_ids($start, $end);
@@ -674,7 +674,7 @@ class peeker extends peeker_connect{
 	* set error flag if not writeable
 	*
 	*/
-	function set_attachment_dir($dir)
+	public function set_attachment_dir($dir)
 	{
 		// isdir() causes blank page error
 		//echo var_dump((isdir($dir)));
@@ -700,7 +700,7 @@ class peeker extends peeker_connect{
 	* return FALSE if not set yet
 	*
 	*/
-	function get_attachment_dir()
+	public function get_attachment_dir()
 	{
 		// get default dir name
 		$class_var_defaults = get_class_vars(get_class($this));
@@ -723,7 +723,7 @@ class peeker extends peeker_connect{
 	* on the email object and useable by detector circuits
 	* TODO: loop and load all the files requested
 	*/
-	function layer($layer)
+	public function layer($layer)
 	{
 		// tell the object we are using layers
 		//$this->layers = TRUE;
@@ -744,7 +744,7 @@ class peeker extends peeker_connect{
 	* detectors
 	*
 	*/
-	function make_detector_set()
+	public function make_detector_set()
 	{
 		include_once('peeker_detector_set.php');
 		// make a new one if we don't have it already
@@ -758,7 +758,7 @@ class peeker extends peeker_connect{
 	* creates an interface to abort 
 	* through the peek_mail parent class
 	*/
-	function detectors_abort($state)
+	public function detectors_abort($state)
 	{
 		$this->detector_set->detectors_abort($state);
 	}
@@ -769,7 +769,7 @@ class peeker extends peeker_connect{
 	* otherwise TRUE
 	*	
 	*/
-	function _check_msg_id($msg_id)
+	private function _check_msg_id($msg_id)
 	{
 		// make sure it is less than message count
 		// and greater than zero

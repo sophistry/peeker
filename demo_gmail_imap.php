@@ -1,5 +1,5 @@
 <?php
-// change these lines
+// change these 3 lines
 // the path to the peeker.php class file
 include('path/to/peeker.php');
 // this can also be a Google Apps email account

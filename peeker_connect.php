@@ -3,23 +3,23 @@
 class peeker_connect {
 
 	// POP3 OR IMAP
-	var $server; // host and port combined into domain.com:port format
-	var $host; // fully-qualified domain name
-	var $port; // imap 143,993(secure) or pop3 110,995(secure) port
+	public $server; // host and port combined into domain.com:port format
+	public $host; // fully-qualified domain name
+	public $port; // imap 143,993(secure) or pop3 110,995(secure) port
 	
-	var $login;
-	var $pass;
+	public $login;
+	public $pass;
 	
-	var $service_flags;
-	var $mailbox;
-	var $server_spec_string; // holds full connect spec, once it's all together
+	public $service_flags;
+	public $mailbox;
+	public $server_spec_string; // holds full connect spec, once it's all together
 	
-	var $resource;
-	var $state_array = array();
+	public $resource;
+	public $state_array = array();
 	
-	var $connected = FALSE;
-	var $message_count = NULL;
-	var $mailboxes;
+	public $connected = FALSE;
+	public $message_count = NULL;
+	public $mailboxes;
 	
 	// message_waiting is TRUE or FALSE 
 	// because some POP servers return a 
@@ -29,7 +29,7 @@ class peeker_connect {
 	// tell how many. so we just store the 
 	// message_waiting boolean as the fastest 
 	// way to know if there are any messages 
-	var $message_waiting = FALSE;
+	public $message_waiting = FALSE;
 	
 	/**
 	* Constructor
@@ -37,7 +37,7 @@ class peeker_connect {
 	* user then has to call initialize() and pass the parameters
 	* 
 	*/
-	function peeker_connect($init_array = NULL)
+	public function peeker_connect($init_array = NULL)
 	{
 		if ( ! is_null($init_array) ) $this->initialize($init_array);	
 	}
@@ -46,7 +46,7 @@ class peeker_connect {
 	* Set the server, login, pass, service_flags, and mailbox
 	* 
 	*/
-	function initialize($init_array)
+	public function initialize($init_array)
 	{	
 		// connect to the specified account
 		// these array items need to be the 
@@ -114,7 +114,7 @@ class peeker_connect {
 	* Expects server, flags, and mailbox to be set already
 	*
 	*/
-	function _generate_server_spec_string()
+	private function _generate_server_spec_string()
 	{
 		return '{'. $this->server . $this->service_flags.'}'.$this->mailbox;
 	}
@@ -136,7 +136,7 @@ class peeker_connect {
 	* presence of messages waiting 
 	* (i.e., some don't so you have to count them)
 	*/
-	function get_message_count($force_recount=FALSE)
+	public function get_message_count($force_recount=FALSE)
 	{
 		if (is_null($this->message_count) OR $force_recount)
 		{
@@ -158,7 +158,7 @@ class peeker_connect {
 	* returns array of server specification 
 	* strings for the mailboxes
 	*/
-	function get_mailboxes()
+	public function get_mailboxes()
 	{
 		// star pattern says get all mailboxes
 		// imap_list() gets array of full mailbox names
@@ -174,7 +174,7 @@ class peeker_connect {
 	* (like the one that is returned by imap_list())
 	*
 	*/
-	function change_to_mailbox($mailbox_name_or_full_server_spec_string)
+	public function change_to_mailbox($mailbox_name_or_full_server_spec_string)
 	{
 		// should check if it is a valid mailbox
 		// but for now, just see if it starts with curly bracket
@@ -209,7 +209,7 @@ class peeker_connect {
 	* the underlying pop lib allows 3 login attempts, in PHP >= 5.2.0 it can be changed
 	* but, that will change some of the rejection handler code.
 	*/
-	function _handle_rejection($err)
+	private function _handle_rejection($err)
 	{
 		$reject_reason = 'Unknown reason for rejection.';
 		if (isset($err[0])) 
@@ -267,7 +267,7 @@ class peeker_connect {
 	* Log the states the connection has gone through
 	* 
 	*/
-	function log_state($str)
+	public function log_state($str)
 	{
 		$this->state_array[] = $str;
 	}
@@ -277,7 +277,7 @@ class peeker_connect {
 	* Get the array of states the connection has gone through
 	* 
 	*/
-	function trace()
+	public function trace()
 	{
 		return $this->state_array;
 	}
@@ -286,7 +286,7 @@ class peeker_connect {
 	* Get the login name
 	* 
 	*/
-	function get_login()
+	public function get_login()
 	{
 		return $this->login;
 	}
@@ -296,7 +296,7 @@ class peeker_connect {
 	* See if the class connected to the server
 	* 
 	*/
-	function is_connected()
+	public function is_connected()
 	{
 		return $this->connected;
 	}
@@ -306,7 +306,7 @@ class peeker_connect {
 	* See if there are messages waiting
 	* 
 	*/
-	function message_waiting()
+	public function message_waiting()
 	{
 		return $this->message_waiting;
 	}
@@ -319,7 +319,7 @@ class peeker_connect {
 	* there is no resource
 	*
 	*/ 
-	function close()
+	public function close()
 	{
 		if (is_resource($this->resource))
 		{

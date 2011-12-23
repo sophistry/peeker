@@ -13,7 +13,7 @@
 * has access to all the header data
 * can manipulate messages on the mail server
 * using the $this->peek_parent->resource property (resource)
-* 
+*  
 *
 */
 
@@ -22,10 +22,10 @@ include_once('peeker_header.php');
 class peeker_body extends peeker_header{
 
 	// define the class that body will use for parts
-	var $parts_class = 'peeker_parts';
+	public $parts_class = 'peeker_parts';
 	
 	// the whole raw body string
-	var $body_string;
+	public $body_string;
 	
 	// store the plain and/or html body
 	// if not a multipart message
@@ -34,18 +34,18 @@ class peeker_body extends peeker_header{
 	// properties could have been filled by
 	// data from a multipart message
 	// should figure better way for this
-	var $PLAIN='';
-	var $HTML='';
+	public $PLAIN='';
+	public $HTML='';
 	
 	// the UNIX timestamp when the message 
 	// came into this class from mail server
-	var $timestamp_pulled;
+	public $timestamp_pulled;
 	
 	/**
 	* Constructor, connect to parent class
 	* 
 	*/
-	function peeker_body(&$peek_parent, $imap_h_obj)
+	public function peeker_body(&$peek_parent, $imap_h_obj)
 	{
 		// pass the resource on to the header class
 		parent::peeker_header($peek_parent, $imap_h_obj);
@@ -59,7 +59,7 @@ class peeker_body extends peeker_header{
 	* (if account is set to do archive or delete on POP access)
 	*
 	*/
-	function get_body()
+	public function get_body()
 	{
 		// headers are retrieved first so body() is decoupled
 		// and messages() in peek class might have deleted this message
@@ -167,7 +167,7 @@ class peeker_body extends peeker_header{
 	* get the body part (raw text undecoded)
 	*
 	*/
-	function get_body_string() 
+	public function get_body_string() 
 	{ 
 		return $this->body_string; 
 	}
@@ -176,7 +176,7 @@ class peeker_body extends peeker_header{
 	* get the PLAIN part (text-only)
 	*
 	*/
-	function get_plain() 
+	public function get_plain() 
 	{ 
 		return $this->PLAIN; 
 	}
@@ -186,7 +186,7 @@ class peeker_body extends peeker_header{
 	* or if there is a rewritten part, send that
 	*
 	*/
-	function get_html() 
+	public function get_html() 
 	{
 		return $this->HTML; 
 	}
@@ -196,7 +196,7 @@ class peeker_body extends peeker_header{
 	* or if there is a rewritten part, send that
 	*
 	*/
-	function get_html_filtered()
+	public function get_html_filtered()
 	{
 		$html = (isset($this->HTML_rewritten))?$this->HTML_rewritten:$this->HTML;
 		return $html;
@@ -206,7 +206,7 @@ class peeker_body extends peeker_header{
 	* get the date pulled timestamp
 	*
 	*/
-	function get_timestamp_pulled() 
+	public function get_timestamp_pulled() 
 	{ 
 		return $this->timestamp_pulled; 
 	}
@@ -217,7 +217,7 @@ class peeker_body extends peeker_header{
 	* to Y-m-d H:i:s mysql datetime string
 	*
 	*/
-	function get_date_pulled() 
+	public function get_date_pulled() 
 	{ 
 		return date('Y-m-d H:i:s', $this->timestamp_pulled); 
 	}
@@ -229,7 +229,7 @@ class peeker_body extends peeker_header{
 	*
 	*
 	*/
-	function preg_match_PLAIN($pattern)
+	public function preg_match_PLAIN($pattern)
 	{
 		return (bool)preg_match($pattern,$this->PLAIN);
 	}
@@ -239,7 +239,7 @@ class peeker_body extends peeker_header{
 	*
 	*
 	*/
-	function preg_match_HTML($pattern)
+	public function preg_match_HTML($pattern)
 	{
 		return (bool)preg_match($pattern,$this->HTML);
 	}
@@ -249,7 +249,7 @@ class peeker_body extends peeker_header{
 	*
 	*
 	*/
-	function has_PLAIN_not_HTML()
+	public function has_PLAIN_not_HTML()
 	{
 		return $this->PLAIN != '' && $this->HTML == '';
 	}
@@ -270,7 +270,7 @@ class peeker_body extends peeker_header{
 	* need to look into fixing those too
 	*
 	*/
-	function fix_MIME_from_sender($from_str)
+	public function fix_MIME_from_sender($from_str)
 	{
 		// use a detector that is in the parent class
 		if ($this->in_from($from_str))
@@ -299,7 +299,7 @@ class peeker_body extends peeker_header{
 	* emails and also force all emails 
 	* to be HTML
 	*/
-	function put_PLAIN_into_HTML()
+	public function put_PLAIN_into_HTML()
 	{
 		// see loreal email for example
 		// this should be handled in a
@@ -320,7 +320,7 @@ class peeker_body extends peeker_header{
 	* deal with tagged html
 	*
 	*/
-	function wrap_HTML_with_HTML_tags()
+	public function wrap_HTML_with_HTML_tags()
 	{
 		$this->HTML = '<html><body>'.$this->HTML.'</body></html>';
 	}

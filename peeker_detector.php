@@ -22,24 +22,24 @@
 
 class peeker_detector {
 
-	var $detector_method;
+	public $detector_method;
 	// XOR this property with 
 	// the check() method result
 	// to invert the result
-	var $invert_detector = FALSE; 
-	var $detector_method_arguments;
-	var $callback_method;
-	var $callback_method_arguments;
+	public $invert_detector = FALSE; 
+	public $detector_method_arguments;
+	public $callback_method;
+	public $callback_method_arguments;
 
-	var $detector_set_parent; 
+	public $detector_set_parent; 
 	
-	var $active = TRUE;
+	public $active = TRUE;
 	
 	/**
 	* Constructor
 	* wrapper to add everything at once
 	*/
-	function peeker_detector($dm=NULL, $dma=NULL, $cm=NULL, $cma=NULL, &$detector_set_parent)
+	public function peeker_detector($dm=NULL, $dma=NULL, $cm=NULL, $cma=NULL, &$detector_set_parent)
 	{
 		//if($detector_set_parent !== NULL) 
 		$this->detector_set_parent =& $detector_set_parent;
@@ -58,7 +58,7 @@ class peeker_detector {
 	* set the detector method
 	* 
 	*/
-	function set_detector($method)
+	public function set_detector($method)
 	{
 		// magic string on detector 
 		// method inverts the boolean
@@ -77,7 +77,7 @@ class peeker_detector {
 	* get the detector method
 	* 
 	*/
-	function get_detector()
+	public function get_detector()
 	{
 		return ($this->invert_detector) ? $this->detector_set_parent->invert_detector_method_string.$this->detector_method : $this->detector_method;
 	}
@@ -86,7 +86,7 @@ class peeker_detector {
 	* set the detector method arguments
 	* 
 	*/
-	function set_detector_arguments(&$array)
+	public function set_detector_arguments(&$array)
 	{
 		$this->detector_method_arguments = $array;
 	}
@@ -95,7 +95,7 @@ class peeker_detector {
 	* get the detector method arguments
 	* 
 	*/
-	function get_detector_arguments()
+	public function get_detector_arguments()
 	{
 		return $this->detector_method_arguments;
 	}
@@ -104,7 +104,7 @@ class peeker_detector {
 	* set the callback method
 	* 
 	*/
-	function set_callback($method)
+	public function set_callback($method)
 	{
 		$this->callback_method = $method;	
 	}
@@ -113,7 +113,7 @@ class peeker_detector {
 	* get the callback method
 	* 
 	*/
-	function get_callback()
+	public function get_callback()
 	{
 		return $this->callback_method;	
 	}
@@ -122,7 +122,7 @@ class peeker_detector {
 	* set the callback method arguments
 	* 
 	*/
-	function set_callback_arguments(&$array)
+	public function set_callback_arguments(&$array)
 	{
 		$this->callback_method_arguments = $array;
 	}
@@ -131,7 +131,7 @@ class peeker_detector {
 	* get the callback method arguments
 	* 
 	*/
-	function get_callback_arguments()
+	public function get_callback_arguments()
 	{
 		return $this->callback_method_arguments;
 	}
@@ -142,7 +142,7 @@ class peeker_detector {
 	* override to send detector call
 	* to an object
 	*/
-	function check(&$obj)
+	public function check(&$obj)
 	{
 		if ( ! $this->active) return FALSE;
 		// this line can target any function
@@ -160,7 +160,7 @@ class peeker_detector {
 	* override to send callback
 	* to an object
 	*/
-	function trigger(&$obj)
+	public function trigger(&$obj)
 	{
 		if ( ! $this->active) return FALSE;
 		// this line can target any function	
@@ -173,7 +173,7 @@ class peeker_detector {
 	* turn it on or off
 	* 
 	*/
-	function set_active($bool)
+	public function set_active($bool)
 	{
 		$this->active = $bool;
 	}

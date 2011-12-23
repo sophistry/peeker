@@ -35,7 +35,7 @@ class peeker_autoresponder_methods
 	* with other variations of bounced messages
 	*
 	*/
-	function is_bounce()
+	public function is_bounce()
 	{
 		// Return-Path header has several issues
 		// 1) sometimes it is not included in the main properties of the header class
@@ -56,7 +56,7 @@ class peeker_autoresponder_methods
 	* return true if email has a from address
 	* and the address is not the no-return <>
 	*/
-	function valid_from_email_for_response()
+	public function valid_from_email_for_response()
 	{
 		$from_address_valid = 0;
 		$return_path_address_valid = 0;
@@ -74,7 +74,7 @@ class peeker_autoresponder_methods
 	// send an email response
 	// determine which email to use if it
 	// is not obvious
-	function send_from($send_from_address='')
+	public function send_from($send_from_address='')
 	{
 		$to = $this->that->get_header_item('Return-Path');
 		p($to);

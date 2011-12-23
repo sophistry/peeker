@@ -10,27 +10,27 @@
 class peeker_detector_set {
 
 	// keep track of what happens
-	var $log_array = array(); 
+	public $log_array = array(); 
 	
 	// we can prepend this string 
 	// to any function that returns 
 	// boolean and it will invert result
-	var $invert_detector_method_string = 'not__'; 
-	var $invert_detector_method_string_length; 
+	public $invert_detector_method_string = 'not__'; 
+	public $invert_detector_method_string_length; 
 	
 	// "inside the detector loop" switch for controlling detectors
 	// default to FALSE, abort_detectors() turns on
-	var $detectors_abort = FALSE;
+	public $detectors_abort = FALSE;
 	// holds the detector objects
-	var $detector_array = array();
+	public $detector_array = array();
 	// holds the booleans that map to detectors
-	var $detector_trigger_array = array();
+	public $detector_trigger_array = array();
 		
 	/**
 	* Constructor
 	* wrapper to add everything at once
 	*/
-	function peeker_detector_set()
+	public function peeker_detector_set()
 	{
 		
 		// strlen the inverter string once
@@ -46,7 +46,7 @@ class peeker_detector_set {
 	* Receive $em_message_object by reference
 	*
 	*/
-	function run(&$em_message_obj)
+	public function run(&$em_message_obj)
 	{
 		// reset the abort state for detectors
 		// so that if we are in a multi-message
@@ -94,7 +94,7 @@ class peeker_detector_set {
 	* just run the triggers
 	* testing just triggers
 	*/
-	function run_triggers(&$em_message_obj)
+	public function run_triggers(&$em_message_obj)
 	{
 		$this->detector_trigger_array = array();
 		foreach ($this->detector_array as $detector)
@@ -112,7 +112,7 @@ class peeker_detector_set {
 	* send TRUE to run all callbacks
 	* for testing or reporting
 	*/
-	function run_callbacks(&$em_message_obj, $all=FALSE)
+	public function run_callbacks(&$em_message_obj, $all=FALSE)
 	{
 		if ($all===FALSE) 
 		{
@@ -143,7 +143,7 @@ class peeker_detector_set {
 	* message in message()
 	*
 	*/
-	function _add_detector($detector_obj)
+	public function _add_detector($detector_obj)
 	{
 		$this->detector_array[] = $detector_obj;
 		//p($this->detector_array);
@@ -158,7 +158,7 @@ class peeker_detector_set {
 	* also, turns on detector checking
 	*
 	*/
-	function detector($dm, $dma, $cm, $cma)
+	public function detector($dm, $dma, $cm, $cma)
 	{
 		include_once('peeker_detector.php');
 		$detector = new peeker_detector($dm, $dma, $cm, $cma, $this);
@@ -177,7 +177,7 @@ class peeker_detector_set {
 	* ttrue() method
 	*
 	*/
-	function detect_phase($dm, $dma='')
+	public function detect_phase($dm, $dma='')
 	{
 		return $this->detector($dm, $dma, 'ttrue', '');
 	}
@@ -193,7 +193,7 @@ class peeker_detector_set {
 	* ttrue() method
 	*
 	*/
-	function callback_phase($cm, $cma='')
+	public function callback_phase($cm, $cma='')
 	{
 		return $this->detector('ttrue', '', $cm, $cma);
 	}
@@ -204,7 +204,7 @@ class peeker_detector_set {
 	* but keep them around
 	* 
 	*/
-	function set_detectors_state($state)
+	public function set_detectors_state($state)
 	{
 		$this->detectors_on = $state;
 	}
@@ -213,7 +213,7 @@ class peeker_detector_set {
 	* abort the detector loop (do not trigger or check)
 	* in messages() method
 	*/
-	function detectors_abort($state)
+	public function detectors_abort($state)
 	{
 		$this->log_array[] = 'Setting detectors abort state: ' . var_export($state,TRUE);		
 		$this->detectors_abort = $state;
@@ -222,7 +222,7 @@ class peeker_detector_set {
 	/**
 	* accessor method: get the state array
 	*/
-	function get_log_array()
+	public function get_log_array()
 	{
 		return $this->log_array;
 	}
@@ -230,7 +230,7 @@ class peeker_detector_set {
 	/**
 	* settor method: set the state array
 	*/
-	function set_log_array($in)
+	public function set_log_array($in)
 	{
 		$this->log_array = $in;
 	}
@@ -244,7 +244,7 @@ class peeker_detector_set {
 	* returns true - check right after in detector stack
 	* 
 	*/
-	function _get_previous_detector_state()
+	public function _get_previous_detector_state()
 	{
 		return end($this->detector_trigger_array);
 	}
