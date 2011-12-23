@@ -1,0 +1,188 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Peeker Connect Class</title>
+
+<style type='text/css' media='all'>@import url('./userguide.css');</style>
+<link rel='stylesheet' type='text/css' media='all' href='../userguide.css' />
+
+<meta http-equiv='expires' content='-1' />
+<meta http-equiv= 'pragma' content='no-cache' />
+<meta name='robots' content='all' />
+
+</head>
+<body>
+
+<!-- START NAVIGATION -->
+<div id="nav"><div id="nav_inner"></div></div>
+<div id="nav2"><a name="top">&nbsp;</a></div>
+<div id="masthead">
+<table cellpadding="0" cellspacing="0" border="0" style="width:100%">
+<tr>
+<td><h1>Peeker Connect</h1></td>
+<td id="breadcrumb_right"><a href="#">Right Breadcrumb</a></td>
+</tr>
+</table>
+</div>
+<!-- END NAVIGATION -->
+
+
+<!-- START BREADCRUMB -->
+<table cellpadding="0" cellspacing="0" border="0" style="width:100%">
+<tr>
+<td id="breadcrumb">
+<a href="http://example.com/">Project Home</a> &nbsp;&#8250;&nbsp;
+<a href="#">User Guide Home</a> &nbsp;&#8250;&nbsp;
+Peeker Connect Class
+</td>
+<td id="searchbox"><form method="get" action="http://www.google.com/search"><input type="hidden" name="as_sitesearch" id="as_sitesearch" value="example.com/user_guide/" />Search Peeker User Guide&nbsp; <input type="text" class="input" style="width:200px;" name="q" id="q" size="31" maxlength="255" value="" />&nbsp;<input type="submit" class="submit" name="sa" value="Go" /></form></td>
+</tr>
+</table>
+<!-- END BREADCRUMB -->
+
+<br clear="all" />
+
+
+<!-- START CONTENT -->
+<div id="content">
+
+
+<h1>Peeker Connect Class</h1>
+
+<p>This class connects to IMAP or POP servers and tells you if there are messages waiting.</p>
+	
+<p>Features:</p>
+
+<ul>
+	<li>Connect to IMAP and POP servers.</li>
+	<li>Find out if connection was established.</li>
+	<li>Find out if messages are waiting.</li>
+	<li>Close connection.</li>
+</ul>
+
+<p class="important"><strong>Note:</strong>&nbsp; This class can be used alone as a lightweight way to check if an email account has messages waiting, but for most email retrieval tasks, it is designed to work with the main peeker class; it is an ancestor class. This class only <kbd>connects</kbd> to the IMAP or POP server and <kbd>detects</kbd> if there are any messages waiting. You need to use the main Peeker class to actually count and get the messages.</p>
+
+<h2>Connecting to IMAP or POP server</h2>
+
+<p>Enter your mailserver connection data and run a few lines of code.</p>
+
+<p>There are many different types of mail servers. Each one has its own requirements.</p>
+
+<h3>Example POP connection</h3>
+
+<p>Connect to a password-protected POP server using the Peeker Connect class:</p>
+
+<code>
+	$config['login']='your_username';<br />
+	$config['pass']='your_password';<br />
+	$config['host']='mail.example.com';<br />
+	$config['port']='110';<br />
+	$config['service_flags'] = '/pop3/notls';<br />
+	<br /> 
+	// you can pass config as second parameter or use initialize()<br />
+	// $this->load->library('peeker_connect', $config);<br />
+	<br />
+	$this->load->library('peeker_connect');<br />
+	$this->peeker_connect->initialize($config);<br />
+	if ($this->peeker_connect->message_waiting())<br />
+	{<br />
+		echo "You've got mail!";<br />
+	}<br />
+	<br />
+	$this->peeker_connect->close();<br />
+	<br />
+	// now tell us the story of the connection<br />
+	print_r($this->peeker_connect->trace());
+</code>
+
+
+<h2>Config items</h2>
+
+
+<p>IMAP and POP server data. Star* indicates config item is required to be set to something other than default.</p>
+
+<table cellpadding="0" cellspacing="1" border="0" style="width:100%" class="tableborder">
+<tr>
+	<th>Config</th>
+	<th>Default&nbsp;Value</th>
+	<th>Options</th>
+	<th>Description</th>
+</tr>
+<tr>
+	<td class="td"><strong>login</strong></td>
+	<td class="td">NULL*</td>
+	<td class="td">any valid login string</td>
+	<td class="td">IMAP or POP server login name.</td>
+</tr>
+<tr>
+	<td class="td"><strong>pass</strong></td>
+	<td class="td">NULL*</td>
+	<td class="td">any valid password string</td>
+	<td class="td">IMAP or POP server password.</td>
+</tr>
+<tr>
+	<td class="td"><strong>host</strong></td>
+	<td class="td">NULL*</td>
+	<td class="td">the fully-qualified domain name for a mailserver</td>
+	<td class="td">e.g., mail.example.com</td>
+</tr>
+<tr>
+	<td class="td"><strong>port</strong></td>
+	<td class="td">NULL*</td>
+	<td class="td">the port number, typically 110, 143, 443, 993, etc...</td>
+	<td class="td">e.g., 110 (for POP3)</td>
+</tr>
+<tr>
+	<td class="td"><strong>service_flags</strong></td>
+	<td class="td">NULL*</td>
+	<td class="td">any valid service flag string (see <a href="http://php.net/imap-open">http://php.net/imap-open</a>)</td>
+	<td class="td">Change these to fit your server settings. For instance, some servers require SSL and Certificates and some don't.</td>
+</tr>
+<tr>
+	<td class="td"><strong>mailbox</strong></td>
+	<td class="td">NULL</td>
+	<td class="td">any valid mailbox name (used only for IMAP, not POP)</td>
+	<td class="td">POP servers don't use a mailbox name, use 'INBOX' for IMAP or another mailbox name in the IMAP account</td>
+</tr>
+</table>
+
+<p>The config array can be sent on library load, by passing to the initialize() method (as shown on this page), or by using the Code Igniter config file convention (see the CI manual for details).</p>
+
+<h2>Function Reference</h2>
+
+<h3>$this->peeker_connect->initialize($config_array)</h3>
+<p>After loading the library, call initialize() to establish a connection.</p>
+<code>$this->peeker_connect->initialize(<var>$config_array</var>);</code>
+
+<h3>$this->peeker_connect->is_connected()</h3>
+<p>After initialize is called, you can check the connection. Returns TRUE or FALSE.</p>
+<code>$this->peeker_connect->is_connected();</code>
+
+<h3>$this->peeker_connect->message_waiting()</h3>
+<p>Check if there is at least one message waiting.  Returns TRUE or FALSE.</p> <p class="important">NOTE: Only returns the messages waiting on the initial connection with the server.</p>
+<p>This is useful for a "You've got mail!" indicator. </p>
+<code>$this->peeker_connect->message_waiting();</code>
+<p class="important">Note: The connect class does not count messages or get messages (you need the main peeker class for that).</p>
+
+<h3>$this->peeker_connect->close()</h3>
+<p>Close the IMAP or POP connection.</p>
+<code>$this->peeker_connect->close();</code>
+</div>
+<!-- END CONTENT -->
+
+
+<div id="footer">
+<p>
+Previous Topic:&nbsp;&nbsp;<a href="#">Previous Class</a>
+&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
+<a href="#top">Top of Page</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
+<a href="#">User Guide Home</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
+Next Topic:&nbsp;&nbsp;<a href="#">Next Class</a>
+</p>
+<p>This documentation describes how to use this standalone library with <a href="http://codeigniter.com">CodeIgniter</a> &nbsp;&middot;&nbsp; Copyright &#169; 2006-2008 &nbsp;&middot;&nbsp; <a href="http://ellislab.com/">Ellislab, Inc.</a></p>
+</div>
+
+</body>
+</html>

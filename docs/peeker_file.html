@@ -1,0 +1,128 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Peeker File Class</title>
+
+<style type='text/css' media='all'>@import url('./userguide.css');</style>
+<link rel='stylesheet' type='text/css' media='all' href='../userguide.css' />
+
+<meta http-equiv='expires' content='-1' />
+<meta http-equiv= 'pragma' content='no-cache' />
+<meta name='robots' content='all' />
+
+</head>
+<body>
+
+<!-- START NAVIGATION -->
+<div id="nav"><div id="nav_inner"></div></div>
+<div id="nav2"><a name="top">&nbsp;</a></div>
+<div id="masthead">
+<table cellpadding="0" cellspacing="0" border="0" style="width:100%">
+<tr>
+<td><h1>Peeker File</h1></td>
+<td id="breadcrumb_right"><a href="#">Right Breadcrumb</a></td>
+</tr>
+</table>
+</div>
+<!-- END NAVIGATION -->
+
+
+<!-- START BREADCRUMB -->
+<table cellpadding="0" cellspacing="0" border="0" style="width:100%">
+<tr>
+<td id="breadcrumb">
+<a href="http://example.com/">Project Home</a> &nbsp;&#8250;&nbsp;
+<a href="#">User Guide Home</a> &nbsp;&#8250;&nbsp;
+File Class
+</td>
+<td id="searchbox"><form method="get" action="http://www.google.com/search"><input type="hidden" name="as_sitesearch" id="as_sitesearch" value="example.com/user_guide/" />Search Project User Guide&nbsp; <input type="text" class="input" style="width:200px;" name="q" id="q" size="31" maxlength="255" value="" />&nbsp;<input type="submit" class="submit" name="sa" value="Go" /></form></td>
+</tr>
+</table>
+<!-- END BREADCRUMB -->
+
+<br clear="all" />
+
+
+<!-- START CONTENT -->
+<div id="content">
+
+
+<h1>File Class</h1>
+
+<p>This class handles the email File data.</p>
+
+<p class="important"><strong>Important:</strong>&nbsp; All of these functions are available through the <kbd>message object</kbd> parts_array property's <kbd>file object</kbd>returned by the Peeker class. Notated here as: $part</p>
+
+<p>In order to access a file object you have to get the email message object (the object $e in the other peeker classes), then get that message object's property called parts_array using the $e->get_parts_array() method. You then loop over the parts_array file objects: 
+<code>$parts = $e->get_parts_array();<br />
+foreach ($parts as $part)<br />
+{<br />
+	$filename = $part->get_filename()<br />
+}
+</code></p>
+	
+	
+<h2>Function Reference</h2>
+
+<h3>get_filename()</h3>
+<p>Return the indicated filename of the attached file.</p>
+<code>$part->get_filename();</code>
+
+<h3>get_string()</h3>
+<p>Return the fully-decoded string that IS the file.</p>
+<code>$part->get_string()</code>
+
+<h3>get_encoding()</h3>
+<p>Return which encoding was used on the attached file.</p>
+<code>$part->get_encoding()</code>
+
+<h3>get_part_no()</h3>
+<p>Return the part number for the attached file.</p>
+<code>$part->get_part_no();</code>
+
+<h3>get_cid()</h3>
+<p>Return the CID (if any) for the attached file.</p>
+<code>$part->get_cid();</code>
+
+<h3>get_disposition()</h3>
+<p>Return the disposition for the attached file.</p>
+<code>$part->get_disposition();</code>
+
+<h3>get_bytes()</h3>
+<p>Return the size of the attached file (in bytes).</p>
+<code>$part->get_bytes();</code>
+
+<h3>get_type()</h3>
+<p>Return the file type.</p>
+<code>$part->get_type();</code>
+
+<h3>get_subtype()</h3>
+<p>Return the file subtype.</p>
+<code>$part->get_subtype()</code>
+
+<h2>Detectors - All Return TRUE or FALSE</h2>
+
+<h3>has_cid()</h3>
+<p>TRUE if the file has a CID which indicates that it is carrying images that expect to be rendered as part of the message display.</p>
+<code>$part->has_cid();</code>
+
+
+</div>
+<!-- END CONTENT -->
+
+
+<div id="footer">
+<p>
+Previous Topic:&nbsp;&nbsp;<a href="#">Previous Class</a>
+&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
+<a href="#top">Top of Page</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
+<a href="#">User Guide Home</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
+Next Topic:&nbsp;&nbsp;<a href="#">Next Class</a>
+</p>
+<p><a href="http://codeigniter.com">CodeIgniter</a> &nbsp;&middot;&nbsp; Copyright &#169; 2006-2008 &nbsp;&middot;&nbsp; <a href="http://ellislab.com/">Ellislab, Inc.</a></p>
+</div>
+
+</body>
+</html>
