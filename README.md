@@ -7,6 +7,7 @@ Peeker is a wrapper around the IMAP/POP3 extension available in PHP. It helps yo
 Start with the *Quick Start* in peeker_quickstart.html.
 
 Basic usage: (gmail IMAP, make sure IMAP is enabled in your gmail account)
+	
 	// class files in peeker directory
 	// change these lines
 	// the path to the peeker.php class file
