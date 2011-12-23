@@ -1,5 +1,5 @@
 Peeker - A framework for building automated email applications.
-================
+=================
 Please read the documentation in the **docs** directory. 
 
 Peeker is a wrapper around the IMAP/POP3 extension available in PHP. It helps you avoid learning all the strange things about talking to an email server and concentrate on getting email as objects and properly-decoded attachments onto your filesystem.
