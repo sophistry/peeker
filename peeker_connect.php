@@ -76,7 +76,10 @@ class peeker_connect {
 		// check for errors in the connection
 		// calling imap_errors() clears all errors in the stack
 		$err = imap_errors();
-			
+		
+		// clear the message count in case this is a re-initialization
+		$this->message_count = NULL;
+		
 		if($this->resource)
 		{
 			$this->log_state('Connected to: '.$this->server_spec_string);
