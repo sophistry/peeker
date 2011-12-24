@@ -80,13 +80,13 @@ class peeker extends peeker_connect{
 	* Constructor
 	* 
 	*/
-	public function peeker($init_array = NULL)
+	public function __construct($init_array = NULL)
 	{
 		// build the valid encodings once for mime decoding
 		// could cache this even further up the chain
 		$this->valid_mb_encoding_array = array_flip(array_change_key_case(array_flip(mb_list_encodings())));
 		// call the parent constructor
-		parent::peeker_connect($init_array);	
+		parent::__construct($init_array);	
 	}
 	
 	/**

@@ -102,7 +102,7 @@ class peeker_header extends peeker_layers{
 	* Constructor
 	* 
 	*/
-	public function peeker_header(&$peek_parent, $imap_h_obj)
+	public function __construct(&$peek_parent, $imap_h_obj)
 	{
 		// host the connection to the IMAP server
 		// and allow these classes to target functions

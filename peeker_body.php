@@ -45,10 +45,10 @@ class peeker_body extends peeker_header{
 	* Constructor, connect to parent class
 	* 
 	*/
-	public function peeker_body(&$peek_parent, $imap_h_obj)
+	public function __construct(&$peek_parent, $imap_h_obj)
 	{
 		// pass the resource on to the header class
-		parent::peeker_header($peek_parent, $imap_h_obj);
+		parent::__construct($peek_parent, $imap_h_obj);
 		$this->log_state('LOADING body class');		
 	}
 	

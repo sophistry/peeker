@@ -39,7 +39,7 @@ class peeker_detector {
 	* Constructor
 	* wrapper to add everything at once
 	*/
-	public function peeker_detector($dm=NULL, $dma=NULL, $cm=NULL, $cma=NULL, &$detector_set_parent)
+	public function __construct($dm=NULL, $dma=NULL, $cm=NULL, $cma=NULL, &$detector_set_parent)
 	{
 		//if($detector_set_parent !== NULL) 
 		$this->detector_set_parent =& $detector_set_parent;

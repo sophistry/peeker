@@ -19,13 +19,6 @@ class peeker_autoresponder_methods
         $this->that = $that;
     }
     
-    // what does this object do when 
-    // asked to convert itself to a string
-    // like in a debugging context
-    public function __toString()
-    {
-        return get_class().' OBJECT';
-    }
     
 	// ------- detectors - return boolean ------- //
 	

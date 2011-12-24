@@ -37,7 +37,7 @@ class peeker_connect {
 	* user then has to call initialize() and pass the parameters
 	* 
 	*/
-	public function peeker_connect($init_array = NULL)
+	public function __construct($init_array = NULL)
 	{
 		if ( ! is_null($init_array) ) $this->initialize($init_array);	
 	}

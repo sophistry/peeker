@@ -30,7 +30,7 @@ class peeker_detector_set {
 	* Constructor
 	* wrapper to add everything at once
 	*/
-	public function peeker_detector_set()
+	public function __construct()
 	{
 		
 		// strlen the inverter string once

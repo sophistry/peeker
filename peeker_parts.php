@@ -30,10 +30,10 @@ class peeker_parts extends peeker_body{
 	* Constructor, connect to parent class
 	* 
 	*/
-	public function peeker_parts(&$peek_parent, $imap_h_obj)
+	public function __construct(&$peek_parent, $imap_h_obj)
 	{
 		// pass the parent on to the header class
-		parent::peeker_body($peek_parent, $imap_h_obj);
+		parent::__construct($peek_parent, $imap_h_obj);
 		$this->log_state('LOADING parts class');		
 	}
 

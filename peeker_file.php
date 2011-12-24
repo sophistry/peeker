@@ -25,7 +25,7 @@ class peeker_file{
 	* Constructor
 	* 
 	*/
-	public function peeker_file($assoc_array)
+	public function __construct($assoc_array)
 	{
 		// set the properties based on the incoming array
 		foreach ($assoc_array as $key => $value)
