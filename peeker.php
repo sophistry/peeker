@@ -104,12 +104,17 @@ class peeker extends peeker_connect{
 		//$this->set_message_class('peeker_parts');
 		// set up a detector that calls 
 		// the email acquistion method
+		// remove the detector_set so it is recreated new each time
+		// in case get_message is called in a loop and detector 
+		// just stacks up get_parts calls
+		unset($this->detector_set);
 		$this->make_detector_set();
 		// the most complete email "pulling" method
 		// but, only works with peek_mail_parts class
 		$this->detector_set->detect_phase('get_parts');
 		// run the acquisition loop
 		return $this->message($start, $end);
+
 	}
 	
 	/**
@@ -200,11 +205,12 @@ class peeker extends peeker_connect{
 				$this->log_state($this->detector_set->get_log_array());
 				// reset the detector log
 				$this->detector_set->set_log_array(array());
+				$this->log_state('finished detectors for '. $this->current_id );
 			}
 			
 			// make the message number (same as Msgno) the key
 			$this->message_object_array[$this->current_id] = $em_message_obj;
-			$this->log_state('grabbed email #' . $this->current_id . ', finished detectors');
+			$this->log_state('Message end, email #' . $this->current_id);
 			
 		}
 		// return one object if one message requested (only $start sent)
