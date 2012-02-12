@@ -129,7 +129,10 @@ class peeker extends peeker_connect{
 	public function message($start, $end=NULL)
 	{
 		// protect the command from 
-		// using empty string like NULL
+		// using empty string like NULL or 0
+		// because messages start at MsgNo 1, not 0
+		// TODO: add exception, better error handling
+		if ($start===0) $this->log_state('ERROR: MsgNo cannot be 0. Mail server MsgNo starts at 1.');
 		// force it to message 1
 		// should change this to error
 		$start = ($start==='') ? 1 : $start;
@@ -754,7 +757,7 @@ class peeker extends peeker_connect{
 	{
 		include_once('peeker_detector_set.php');
 		// make a new one if we don't have it already
-		if ($this->detector_set === NULL) $this->detector_set = new peeker_detector_set();
+		if (!isset($this->detector_set)) $this->detector_set = new peeker_detector_set();
 		$this->detectors_on = TRUE;
 		return $this->detector_set;
 	}

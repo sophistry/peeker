@@ -75,7 +75,13 @@ class peeker_body extends peeker_header{
 			// it effectively invisible (depending on gmail account's POP3 settings)
 			$this->log_state('Fetching structure for email #'.$this->Msgno);			
 			$structure = @imap_fetchstructure($this->peek_parent->resource, $this->Msgno);
-			// check for errors here to clear the 
+			
+			// make sure $structure is not null - can happen if passed MsgNo 0
+			// log state
+			// TODO: build error handling, exception
+			if ($structure===NULL) $this->log_state('get_body() method $structure is NULL. MsgNo is: '.(int)$this->MsgNo);
+			
+			// check for mail server errors here to clear the 
 			// error stack and prevent it from posting
 			// PHP errors about badly formatted emails
 			// should probably store the errors with the email in a db
