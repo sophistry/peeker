@@ -137,7 +137,7 @@ $peeker->somefunction();
 <p>This is a selection of Peeker Class functions - it is not complete, but should get you started exploring.</p>
 
 <h3>$this->peeker->get_message(<var>message_number</var>)</h3>
-<p>Get a message in the queue. Returns a message object. The example below uses 1 as the parameter so the code gets the first message waiting.</p>
+<p>Get a message in the queue. Returns a message object. The example below uses 1 as the parameter so the code gets the first message waiting. NOTE: Message number index starts at 1. Sending 0 to this method will result in a stream of notices and print a message in the log trace.</p>
 <code>$e = $this->peeker->get_message(1);</code>
 
 <h3>$this->peeker->delete_and_expunge(<var>message_number</var>)</h3>

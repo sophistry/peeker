@@ -165,7 +165,7 @@ Peeker Class
 
 <h3>get_message($start [,$end])</h3>
 <p class="important">This is the function if you simply want the Peeker class to get entire email messages from a POP or IMAP server.</p>
-<p>After loading the library, call get_message() to get a message. The get_message() function gets the whole message (header, body and attachments/parts). It is a wrapper function for the message() function below. However, it does not just "peek" at the messages, it "pulls" them (headers, body, and attachments) and they will be downloaded and/or marked as read. </p>
+<p>After loading the library, call get_message() to get a message. The get_message() function gets the whole message (header, body and attachments/parts). It is a wrapper function for the message() function below. However, it does not just "peek" at the messages, it "pulls" them (headers, body, and attachments) and they will be downloaded and/or marked as read. NOTE: Message number index starts at 1. Sending 0 to this method will result in a stream of notices and print a message in the log trace. </p>
 
 <p>You can pass 1 or 2 parameters. 1 parameter means "get one message" indicated by the integer passed, and 2 parameters means "get a range of messages."</p> 
 <p>Returns one object (if only $start sent) or an array of message objects (if  $start and $end sent). This method spawns message objects as either stdClass objects or custom class objects (see set_message_class() method below to define your own objects).</p>
@@ -178,7 +178,7 @@ $email_array = $this->peeker->get_message(1,5);</code>
 
 <h3>message($start [,$end])</h3>
 <p>After loading the library, call message() to just peek at message headers. Note: message() will download and mark as read if the message class is peeker_body, peeker_parts, or an extension of either.</p>
-<p>Just like get_message(), you can pass 1 or 2 parameters. 1 parameter means "get one message" indicated by the integer passed, and 2 parameters means "get a range of messages."</p> 
+<p>Just like get_message(), you can pass 1 or 2 parameters. 1 parameter means "get one message" indicated by the integer passed, and 2 parameters means "get a range of messages." NOTE: Message number index starts at 1. Sending 0 to this method will result in a stream of notices and print a message in the log trace. </p> 
 <p>Returns one object (if one parameter sent) or an array of message objects (if  2 parameters sent). This method spawns either stdClass objects or custom class objects (see set_message_class() method below to define your own objects).</p>
 <code>// get just the headers of the first email message<br />
 $email_object = $this->peeker->message(1);</code>
