@@ -58,9 +58,9 @@ Body Class
 
 <h2>Function Reference</h2>
 
-<h3>body()</h3>
-<p>Get the email message body data. This generally includes the PLAIN and HTML version of an email. If there is a parts class set this function also gets the email parts. </p>
-<code>$e->body();</code>
+<h3>get_body()</h3>
+<p>Pull in the email message body data. Returns true. The message properties are populated. This generally includes the PLAIN and HTML version of an email. If there is a parts class set this function also gets the email parts. </p>
+<code>$e->get_body();</code>
 
 <h3>get_body_string()</h3>
 <p>Get the raw, undecoded body string.</p>
