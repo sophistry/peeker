@@ -1,0 +1,283 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Peeker Class</title>
+
+<style type='text/css' media='all'>@import url('./userguide.css');</style>
+<link rel='stylesheet' type='text/css' media='all' href='../userguide.css' />
+
+<meta http-equiv='expires' content='-1' />
+<meta http-equiv= 'pragma' content='no-cache' />
+<meta name='robots' content='all' />
+
+</head>
+<body>
+
+<!-- START NAVIGATION -->
+<div id="nav"><div id="nav_inner"></div></div>
+<div id="nav2"><a name="top">&nbsp;</a></div>
+<div id="masthead">
+<table cellpadding="0" cellspacing="0" border="0" style="width:100%">
+<tr>
+<td><h1>Peeker</h1></td>
+<td id="breadcrumb_right"></td>
+</tr>
+</table>
+</div>
+<!-- END NAVIGATION -->
+
+
+<!-- START BREADCRUMB -->
+<table cellpadding="0" cellspacing="0" border="0" style="width:100%">
+<tr>
+<td id="breadcrumb">
+<a href="https://github.com/sophistry/peeker">Project Home</a> &nbsp;&#8250;&nbsp;
+<a href="peeker_toc.html">User Guide Home</a> &nbsp;&#8250;&nbsp;
+Peeker Class
+</td>
+
+</tr>
+</table>
+<!-- END BREADCRUMB -->
+
+<br clear="all" />
+
+
+<!-- START CONTENT -->
+<div id="content">
+
+
+<h1>Peeker Class</h1>
+<p class="important">Please look at the <strong>Quickstart Guide</strong> first. This page documents the entire Peeker main class and shows advanced techniques. The <strong>Quickstart Guide</strong> is a better place to start if you are using Peeker for the first time.</p>
+<p>This is the main Peeker class. It extends the Peeker Connect class to connect to a POP or IMAP server and get emails.</p>
+<p>Once connected, you can get header information for any email messages. This class lets you "peek" at email headers without disturbing the "read" state of the message and <em>without downloading any of the email body or attachments</em>.</p>
+<p class="important"><strong>Note:</strong>&nbsp;The message handling can be changed so this class will get only message headers (saves memory and time by not getting bodies and attachments). See the set_message_class() method below.</p>
+	
+<p>Features:</p>
+<ul>
+	<li>Everything the Peeker Connect class can do, plus...</li>
+	<li>Count the number of messages waiting.</li>
+	<li>Get all email headers from one message into one object.</li>
+	<li>Decode MIME encoded email headers.</li>
+	<li>Set IMAP search parameters and get list of message IDs matching the search.</li>
+	<li>Do not disturb the read state of the message (good for gMail POP).</li>
+	<li>Event System: Detector-Callback circuits in the email acquisition loop.</li>
+</ul>
+
+<h2>Count the new messages waiting at IMAP or POP server</h2>
+
+<p>Enter your mailserver connection data and run a few lines of code.</p>
+
+<h3>Example IMAP connection</h3>
+
+<p>Connect to the gMail.com IMAP server using the Peeker class (remember to enable IMAP on your gmail account):</p>
+
+<code>
+	$this->load->library('peeker');<br />
+	<br />
+	$config['login']='your_username@gmail.com';<br />
+	$config['pass']='your_password';<br />
+	$config['host']='imap.gmail.com';<br />
+	$config['port']='993';<br />
+	$config['service_flags'] = '/imap/ssl/novalidate-cert';<br />
+	<br />
+	$this->peeker->initialize($config);<br />
+	if ($this->peeker->message_waiting())<br />
+	{<br />
+		echo 'Message count:' . $this->peeker->get_message_count();<br />
+	}<br />
+	else<br />
+	{<br />
+		echo 'No messages waiting.';<br />
+	}<br />
+	<br />
+	$this->peeker->close();<br />
+	<br />
+	// now tell us the story of the connection<br />
+	print_r($this->peeker->trace());
+</code>
+
+<h3>Get first email and pull headers from the message object</h3>
+
+<p>Assuming you've already connected and initialized as above:</p>
+<p class="important">Note: This code shows only a few of the headers available.</p>
+
+<code>
+	
+	if ($this->peeker->message_waiting())<br />
+	{<br />
+		// get the first message <br />
+		$email = $this->peeker->message(1);<br />
+		echo $email->Msgno;<br />
+		echo $email->date;<br />
+		echo $email->subject;<br />
+		echo $email->toaddress;<br />
+		echo $email->fromaddress;<br />
+	}<br />
+	
+</code>
+
+
+<h3>Header fields in message object</h3>
+
+<p>This class brings all email header data into one convenient object. See the PHP manual pages for documentation on the two PHP IMAP class header functions:  <a href="http://www.php.net/imap-headerinfo">imap_headerinfo()</a> and <a href="http:/www.php.net/imap-fetchheader">imap_fetch_header()</a></p> 
+<p>Peeker combines the output of these two header functions. This is because the raw email header always holds more header fields than those returned by imap_headerinfo(). Peeker makes it easy to gather, decode, and access all of those header fields.</p>
+<p>The headers returned by the PHP function imap_headerinfo() are put directly into the email message object. The header fields are mapped directly to message object properties. See the PHP manual page <a href="http://www.php.net/imap-headerinfo">imap_headerinfo()</a> function for a list of headers (and Peeker Message Object properties) that are available after calling message(). </p>
+<p>Additionally, two other properties are added to the message object. These are two versions of the raw header returned by <a href="http:/www.php.net/imap-fetchheader">imap_fetch_header()</a>: <var>header_string</var> and <var>header_array</var>.  The first is the raw header string and the second is the raw header parsed into a multi-dimensional, associative array of header fields. They both contain the same header data. </p>
+<code>// an example of the header_array property of the message object<pre>[header_array] => Array
+(
+	[Delivered-To] => you@domain.com
+	[Received] => Array
+	(
+		[0] => by 123.123.123.123 with SMTP id 8; 
+		Sat, 27 Jun 2009 06:44:39 -0700 (PDT)
+		[1] => by 123.123.123.123 with SMTP id 6; 
+		Sat, 27 Jun 2009 06:44:38 -0700 (PDT)
+		[2] => from abc.def.ghi.jkl (abc.def.ghi.jkl [1.1.1.1]) 
+		by mx.google.com with ESMTP id 9; 
+		Sat, 27 Jun 2009 06:44:38 -0700 (PDT)
+	)
+
+	[Return-Path] => bounce@domain.com
+	[Received-SPF] => neutral (google.com: 1.2.3.4 is neither 
+	permitted nor denied by best guess record for domain of 
+	me@domain.com) client-ip=1.2.3.4;
+	[Authentication-Results] => mx.google.com; spf=neutral 
+	(google.com: 1.2.3.4 is neither permitted nor denied by 
+	best guess record for domain of me@domain.com) 
+	smtp.mail=me@domain.com
+	[Date] => Sat, 27 Jun 2009 09:44:36 -0400
+	[From] => Full Name &lt;me@domain.com&gt;
+	[Subject] => text file attached
+	[To] => you@domain.com
+	[Message-id] => mxylplyx
+	[MIME-version] => 1.0
+	[X-Mailer] => Apple Mail (2.935.3)
+	[Content-type] => multipart/mixed; boundary="Boundary_(ID_iS)"
+)</pre></code>
+<p>The raw header string is from PHP's <a href="http:/www.php.net/imap-fetchheader">imap_fetch_header()</a> function and Peeker creates the multi-dimensional array.</p> 
+
+<p>Also, you can always dump the message object to see what's in there. Every message has a different set of headers so it's good practice to get to know email headers.</p>
+
+<h2>Function Reference</h2>
+
+<h3>get_message($start [,$end])</h3>
+<p class="important">This is the function if you simply want the Peeker class to get entire email messages from a POP or IMAP server.</p>
+<p>After loading the library, call get_message() to get a message. The get_message() function gets the whole message (header, body and attachments/parts). It is a wrapper function for the message() function below. However, it does not just "peek" at the messages, it "pulls" them (headers, body, and attachments) and they will be downloaded and/or marked as read. NOTE: Message number index starts at 1. Sending 0 to this method will result in a stream of notices and print a message in the log trace. </p>
+
+<p>You can pass 1 or 2 parameters. 1 parameter means "get one message" indicated by the integer passed, and 2 parameters means "get a range of messages."</p> 
+<p>Returns one object (if only $start sent) or an array of message objects (if  $start and $end sent). This method spawns message objects as either stdClass objects or custom class objects (see set_message_class() method below to define your own objects).</p>
+<code>// get the whole first email message<br />
+$email_object = $this->peeker->get_message(1);</code>
+<code>// get the first 5 email messages - all data in the email<br />
+$email_array = $this->peeker->get_message(1,5);</code>
+
+<p>Technical note: The get_message() function loads up the peeker_parts class and the detector class. It then creates a single detector that runs the acquisition function that "pulls" the email.</p>
+
+<h3>message($start [,$end])</h3>
+<p>After loading the library, call message() to just peek at message headers. Note: message() will download and mark as read if the message class is peeker_body, peeker_parts, or an extension of either.</p>
+<p>Just like get_message(), you can pass 1 or 2 parameters. 1 parameter means "get one message" indicated by the integer passed, and 2 parameters means "get a range of messages." NOTE: Message number index starts at 1. Sending 0 to this method will result in a stream of notices and print a message in the log trace. </p> 
+<p>Returns one object (if one parameter sent) or an array of message objects (if  2 parameters sent). This method spawns either stdClass objects or custom class objects (see set_message_class() method below to define your own objects).</p>
+<code>// get just the headers of the first email message<br />
+$email_object = $this->peeker->message(1);</code>
+<code>// get just the headers of the first 5 email messages<br />
+$email_array = $this->peeker->message(1,5);</code>
+
+<h3>set_search($search_string)</h3>
+<p>Set an IMAP search string. See the <a href="http://php.net/manual/en/function.imap-search.php">PHP Manual Page for imap_search()</a> to see the types of searches you can do.</p>
+<code>// set the IMAP search terms<br />
+$this->peeker->set_search('TO "name@email.com"');</code>
+
+<h3>search_and_count_messages()</h3>
+<p>Sends the search to the IMAP server. Returns the number of messages found.</p>
+<code>// do the IMAP search, return count of messages found.<br />
+$this->peeker->search_and_count_messages();</code>
+
+<h3>get_ids_from_search([$index])</h3>
+<p>Get the list of Msgnos found by the search (note: these are not message IDs). Returns an array of Msgnos of messages found by the search.</p>
+<p>Loop over the array and get each message by calling the message() method with the Msgno as the parameter.</p>
+<p>Send optional $index parameter to get just one Msgno (e.g., get_ids_from_search(0) returns the first Msgno found).</p>
+<code>// set the IMAP search terms<br />
+$this->peeker->set_search('FROM "othername@email.com"');<br />
+// do the IMAP search, return count of messages found.<br />
+$search_count = $this->peeker->search_and_count_messages();<br />
+// do the IMAP search, return count of messages found.<br />
+$id_array = $this->peeker->get_ids_from_search();</code>
+
+<h3>decode_mime($encoded_string)</h3>
+<p>Email message headers and parts are often encoded using the MIME standard (<a href="http://en.wikipedia.org/wiki/MIME">Wikipedia Article on MIME</a>). This function helps you to decode MIME-encoded strings.</p>
+
+<p>Returns a MIME-decoded string.</p>
+
+<p>Note: you can send an unencoded string and you will get that string back.</p>
+
+<code>$email = $this->peeker->message(1);<br />
+$decoded_subject = $this->peeker->decode_mime($email->subject);</code>
+
+<p>The Peeker class can automatically decode individual MIME-encoded header fields but does not do so unless you <ol><li>use the get_message() function or...</li><li>set your own message class.</li></ol> You can use the decode_mime() method on a message header string or you can use set_message_class() to <kbd>set a custom message class</kbd> that does the decoding. </p>
+<p>The custom class can be set up to automatically handle MIME decoding tasks per message. See the Peeker Header class for an example custom class that does automatic MIME decoding. Or, just use get_message().</p>
+
+<h3>set_message_class($classname=filename minus extension)</h3>
+<p>Before getting messages from the mailserver you can tell the Peeker Class which class you want to use to hold and process the messages. This is useful for creating custom message handling methods. </p>
+<p>For example, the Peeker Header "spawn" class automatically MIME-decodes header parts. It also provides methods to access all the header fields.</p>
+<p class="important">Note: if you set a custom class, there must be a file with the name and a .php extension located in the same directory with the Peeker class.</p>
+<code>//peeker_header.php file must be in same directory<br />
+$this->peeker->set_message_class('peeker_header');</code>
+<p>If you don't set the message class (and you don't use the get_message() function), Peeker uses PHP's native stdClass object for incoming emails.</p>
+
+
+<h3>delete_and_expunge($message_number)</h3>
+<p>Delete the message and expunge it. Deleting mail from an IMAP or POP mailserver happens in two stages: deleting and expunging. This method lets you do both at the same time.</p>
+<p>Call it only when you are sure you want to delete the message from the mailserver. There is no undo.</p>
+<code>// delete the first message<br />
+$this->peeker->delete_and_expunge(1);</code>
+<p class="important">Note: the gMail POP and IMAP interfaces ignore this command and do not delete the message. gMail has its own internal email handling system that works different from normal POP and IMAP servers. You can change how gMail handles IMAP- and POP-accessed messages in the Settings tab at gmail.com.</p>
+
+<h3>set_attachment_dir($writeable_directory)</h3>
+<p>Set a directory to hold email attachments. This is a utility function that custom classes can use to create file handling methods. Returns TRUE on success.</p>
+<code>$bool = $this->peeker->set_attachment_dir(APPPATH.'attachments');</code>
+<p class="important">Note: Directory must be writeable.</p>
+
+<h3>get_attachment_dir()</h3>
+<p>Get the directory that holds email attachments. This is a utility function that custom classes can use for file handling methods. Returns the directory path that was set. </p>
+<code>$dir = $this->peeker->get_attachment_dir();</code>
+
+<h2>Detectors</h2>
+
+<p>The Peeker Detector system processes email in a <a href="http://en.wikipedia.org/wiki/Declarative_programming">declarative programming</a> style. This style helps you modularize reuseable detector components. Declarative programming can also help you split tasks among multiple programmers and make your program logic clear.</p>
+<p class="important">Note: The Peeker Detector system only works if: <ol><li>you use the get_message() function or... </li><li>you create a custom message class and tell Peeker to use it</li></ol> <code>$this->peeker->set_message_class('peeker_header');</code>
+Consider it an advanced, powerful and completely optional technique.</p>
+
+<h3>make_detector_set()</h3>
+
+<p>Create and return a detector set object that will hold all the detectors.</p>
+<code>
+$detector = $this->peeker->make_detector_set();
+</code>
+
+<p class="important">The detector set and its detectors must be created <strong>before</strong> calling the get_message() or message() method. See peeker_detector class documentation for complete examples.</p>
+
+<h3>detectors_abort($state)</h3>
+
+<p>Tell the detector loop to abort immediately. Send TRUE or FALSE.</p>
+<code>
+$this->peeker->detectors_abort(TRUE);
+</code>
+
+</div>
+<!-- END CONTENT -->
+
+
+<div id="footer">
+<p>
+
+<a href="#top">Top of Page</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
+<a href="peeker_toc.html">User Guide Home</a>
+</p>
+<p><a href="https://github.com/sophistry/peeker">Peeker</a> &nbsp;&middot;&nbsp; Copyright &#169; 2009-20xx &nbsp;&middot;&nbsp;</p>
+</div>
+
+</body>
+</html>

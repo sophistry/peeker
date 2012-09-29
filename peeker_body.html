@@ -1,0 +1,127 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Peeker Body Class</title>
+
+<style type='text/css' media='all'>@import url('./userguide.css');</style>
+<link rel='stylesheet' type='text/css' media='all' href='../userguide.css' />
+
+<meta http-equiv='expires' content='-1' />
+<meta http-equiv= 'pragma' content='no-cache' />
+<meta name='robots' content='all' />
+
+</head>
+<body>
+
+<!-- START NAVIGATION -->
+<div id="nav"><div id="nav_inner"></div></div>
+<div id="nav2"><a name="top">&nbsp;</a></div>
+<div id="masthead">
+<table cellpadding="0" cellspacing="0" border="0" style="width:100%">
+<tr>
+<td><h1>Peeker Body</h1></td>
+<td id="breadcrumb_right"></td>
+</tr>
+</table>
+</div>
+<!-- END NAVIGATION -->
+
+<!-- START BREADCRUMB -->
+<table cellpadding="0" cellspacing="0" border="0" style="width:100%">
+<tr>
+<td id="breadcrumb">
+<a href="https://github.com/sophistry/peeker">Project Home</a> &nbsp;&#8250;&nbsp;
+<a href="peeker_toc.html">User Guide Home</a> &nbsp;&#8250;&nbsp;
+Body Class
+</td>
+</td>
+</tr>
+</table>
+<!-- END BREADCRUMB -->
+
+<br clear="all" />
+
+
+<!-- START CONTENT -->
+<div id="content">
+
+
+<h1>Body Class</h1>
+
+<p>This class handles the email Body data.</p>
+
+<p class="important"><strong>Important:</strong>&nbsp; All of these functions are available through the <kbd>message object</kbd> returned by the Peeker class. Notated here as: $e</p>
+	
+
+
+<h2>Function Reference</h2>
+
+<h3>get_body()</h3>
+<p>Pull in the email message body data. Returns true. The message properties are populated. This generally includes the PLAIN and HTML version of an email. If there is a parts class set this function also gets the email parts. </p>
+<code>$e->get_body();</code>
+
+<h3>get_body_string()</h3>
+<p>Get the raw, undecoded body string.</p>
+<code>$e->get_body_string();</code>
+
+<h3>get_plain()</h3>
+<p>Get the PLAIN part of a multipart/alternative email.</p>
+<code>$e->get_plain();</code>
+
+<h3>get_html()</h3>
+<p>Get the HTML part of a multipart/alternative email.</p>
+<code>$e->get_html()</code>
+
+<h3>get_html_filtered()</h3>
+<p>Specialized. If you have set up a function to manipulate the HTML, you can put the changed HTML into the html_filtered property and get it with this function. This is for specialized uses.</p>
+<code>$e->get_html_filtered();</code>
+
+<h3>get_date_pulled()</h3>
+<p>Get the date the email was pulled from the server and put into this object.</p>
+<code>$e->get_date_pulled();</code>
+
+<h2>Detectors - All Return TRUE or FALSE</h2>
+
+<h3>preg_match_PLAIN($pattern)</h3>
+<p>TRUE if regular expression matches the fully-decoded PLAIN part of the email message.</p>
+<code>$e->preg_match_PLAIN('/spamword/');</code>
+
+<h3>preg_match_HTML($pattern)</h3>
+<p>TRUE if regular expression matches the fully-decoded HTML part of the email message.</p>
+<code>$e->preg_match_HTML('/spamword/');</code>
+
+<h3>has_PLAIN_not_HTML()</h3>
+<p>TRUE if the email has a PLAIN part but no HTML part.</p>
+<code>$e->has_PLAIN_not_HTML();</code>
+
+<h2>Callback functions</h2>
+
+<h3>fix_MIME_from_sender($from_str)</h3>
+<p>Specialized. Brute force. Sometimes a certain email sender's client will mess up some aspect of the email. This function identifies a sender and 'fixes' a common MIME problem: the parts are incompletely specified. This function looks for an html open tag in the first 25 lines and rebuilds the email object to use the html data in the HTML property.</p>
+<code>$e->fix_MIME_from_sender('steve@aol.com');</code>
+
+<h3>put_PLAIN_into_HTML()</h3>
+<p>Put the PLAIN part data into the HTML property.</p>
+<code>$e->put_PLAIN_into_HTML();</code>
+
+<h3>wrap_HTML_with_HTML_tags()</h3>
+<p>Specialized. Brute force. Sometimes emails that are supposed to be HTML don't have html tags. This wraps those.</p>
+<code>$e->wrap_HTML_with_HTML_tags();</code>
+
+</div>
+<!-- END CONTENT -->
+
+
+<div id="footer">
+<p>
+
+<a href="#top">Top of Page</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
+<a href="peeker_toc.html">User Guide Home</a>
+</p>
+<p><a href="https://github.com/sophistry/peeker">Peeker</a> &nbsp;&middot;&nbsp; Copyright &#169; 2009-20xx &nbsp;&middot;&nbsp;</p>
+</div>
+
+</body>
+</html>

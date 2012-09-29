@@ -1,0 +1,276 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Peeker Connect Class</title>
+
+<style type='text/css' media='all'>@import url('./userguide.css');</style>
+<link rel='stylesheet' type='text/css' media='all' href='../userguide.css' />
+
+<meta http-equiv='expires' content='-1' />
+<meta http-equiv= 'pragma' content='no-cache' />
+<meta name='robots' content='all' />
+
+</head>
+<body>
+
+<!-- START NAVIGATION -->
+<div id="nav"><div id="nav_inner"></div></div>
+<div id="nav2"><a name="top">&nbsp;</a></div>
+<div id="masthead">
+<table cellpadding="0" cellspacing="0" border="0" style="width:100%">
+<tr>
+<td><h1>Peeker Header</h1></td>
+<td id="breadcrumb_right"></td>
+</tr>
+</table>
+</div>
+<!-- END NAVIGATION -->
+
+
+<!-- START BREADCRUMB -->
+<table cellpadding="0" cellspacing="0" border="0" style="width:100%">
+<tr>
+<td id="breadcrumb">
+<a href="https://github.com/sophistry/peeker">Project Home</a> &nbsp;&#8250;&nbsp;
+<a href="peeker_toc.html">User Guide Home</a> &nbsp;&#8250;&nbsp;
+Header Class
+</td>
+</td>
+</tr>
+</table>
+<!-- END BREADCRUMB -->
+
+<br clear="all" />
+
+
+<!-- START CONTENT -->
+<div id="content">
+
+
+<h1>Header Class</h1>
+
+<p>This class handles the email header data.</p>
+
+<p class="important"><strong>Important:</strong>&nbsp; All of these functions are available through the <kbd>message object</kbd> returned by the Peeker class. Notated here as: $e</p>
+	
+
+
+<h2>Message Object Property Access Functions</h2>
+
+<h3>get_fingerprint()</h3>
+<p>Returns MD5 hash of several basic email message properties (default: fromaddress, toaddress, subject, date). This allows you to determine if an email is unique (like a fingerprint). The fingerprint can also be used to generate a unique directory name for storing attachments. The fingerprint is <strong>not</strong> the Message-ID.</p>
+<code>$e->get_fingerprint();</code>
+
+<h3>get_date()</h3>
+<p>Returns the raw date string from the email message.</p>
+<code>$e->get_date();</code>
+
+<h3>get_subject()</h3>
+<p>Return the fully-decoded subject of the email message.</p>
+<code>$e->get_subject();</code>
+
+<h3>get_msgno()</h3>
+<p>Return the message number of the email. This is a temporary number given by the server to the message. The message number changes when the email queue is changed. E.g., msgno 1 is the first message in the queue.</p>
+<code>$e->get_msgno();</code>
+
+<h3>get_message_id()</h3>
+<p>Returns the Message-ID header (if there is one).</p>
+<code>$e->get_message_id();</code>
+
+<h3>get_to()</h3>
+<p>Returns the fully-decoded To address string.</p>
+<code>$e->get_to();</code>
+
+<h3>get_from()</h3>
+<p>Returns the fully-decoded From address string.</p>
+<code>$e->get_from();</code>
+
+<h3>get_reply_to()</h3>
+<p>Returns the fully-decoded Reply-To address string.</p>
+<code>$e->get_reply_to();</code>
+
+<h3>get_sender()</h3>
+<p>Returns the fully-decoded Sender address string.</p>
+<code>$e->get_sender();</code>
+
+<h3>get_cc()</h3>
+<p>Returns the fully-decoded CC address string.</p>
+<code>$e->get_cc();</code>
+
+<h3>get_bcc()</h3>
+<p>Returns the fully-decoded BCC address string. Note: the BCC field generally only appears in outgoing messages (such as those in an IMAP Drafts folder).</p>
+<code>$e->get_bcc();</code>
+
+<h3>get_return_path()</h3>
+<p>Returns the fully-decoded Return-Path address string.</p>
+<code>$e->get_return_path();</code>
+
+<h3>get_to_array([$format])</h3>
+<p>Returns the fully-decoded To address array. By default, the array holds multiple addresses, each with its own personal, mailbox, and host part. This is the same address array returned by the <a href="http://php.net/imap-headerinfo">imap_headerinfo()</a> function except that this array is fully-decoded.</p>
+<p>Send the optional $format argument to get a flat array. The array values will be formatted with string replacement on these three keywords: personal, mailbox, host. So if you just want the email address without the personal part (e.g., me@example.com) then send the string 'mailbox@host' as the format argument. The $format string can contain any other strings.</p>
+<code>$e->get_to_array(); // no argument, returns nested associative array.</code>
+<code>$e->get_to_array('"personal" &lt;mailbox@host&gt;'); // returns 'standard' email format.</code>
+
+<h3>get_from_array([$format])</h3>
+<p>See get_to_array() function.</p>
+<code>$e->get_from_array();</code>
+
+<h3>get_reply_to_array([$format])</h3>
+<p>See get_to_array() function.</p>
+<code>$e->get_reply_to_array();</code>
+
+<h3>get_sender_array([$format])</h3>
+<p>See get_to_array() function.</p>
+<code>$e->get_sender_array();</code>
+
+<h3>get_cc_array([$format])</h3>
+<p>See get_to_array() function.</p>
+<code>$e->get_cc_array();</code>
+
+<h3>get_bcc_array([$format])</h3>
+<p>See get_to_array() function.</p>
+<code>$e->get_bcc_array();</code>
+
+<h3>get_return_path_array([$format])</h3>
+<p>See get_to_array() function.</p>
+<code>$e->get_return_path_array();</code>
+
+<h3>get_size()</h3>
+<p>Returns the size in bytes of the entire message - including any attachments.</p>
+<code>$e->get_size();</code>
+
+<h3>get_timestamp()</h3>
+<p>Returns the UNIX timestamp when the message was sent.</p>
+<code>$e->get_timestamp();</code>
+
+<h3>get_header_string()</h3>
+<p>Returns the raw header string - undecoded.</p>
+<code>$e->get_header_string();</code>
+
+<h3>get_header_array()</h3>
+<p>Returns the raw, undecoded header fields in a tidy, nested, associative array.</p>
+<code>$e->get_header_array();</code>
+
+<h3>get_mark_delete()</h3>
+<p>Returns the delete mark. If the message has been marked to delete, returns TRUE</p>
+<code>$e->get_mark_delete();</code>
+
+<h3>set_mark_delete($delete)</h3>
+<p>Mark the message for deletion. You must call expunge() (in the peeker class) in the same connection to actually delete the message after marking it.</p>
+<code>$e->set_mark_delete();
+$e->expunge(); 
+</code>
+
+<h2>Detectors - All Return TRUE or FALSE</h2>
+
+<h3>in_from($from_str)</h3>
+<p>For string detection in the From header. If the string passed to this function is in the 'From:' header string of the message, return TRUE. Wraps the strpos function and applies it to the undecoded 'From:' header string. This function is case-insensitive.</p>
+<code>$e->strpos_from();</code>
+
+<h3>in_to($to_str)</h3>
+<p>For string detection in the To header. If the string passed to this function is in the 'To:' header string of the message, return TRUE. Wraps the strpos function and applies it to the undecoded 'To:' header string.This function is case-insensitive.</p>
+<code>$e->strpos_to();</code>
+
+<h3>empty_property($property)</h3>
+<p>Checks the message for data in a property. If the property name (e.g., 'cc') passed to this function is empty, return TRUE.</p>
+<p>Here is the list of useful (and potentially empty) properties for a message object: date, subject, message_id, to, from, reply_to, sender, cc, bcc, return_path. This function covers the native properties of the message object. If you need to test whether an arbitrary email message header is empty see the preg_match_header_array_key() detector function below.</p>
+<code>$e->empty_property('cc');</code>
+
+<h3>is_msgno($msgno)</h3>
+<p>TRUE if current message's msgno equals the argument $msgno.</p>
+<code>$e->is_msgno(1); // check if this is the first message</code>
+
+<h3>preg_match_field($arr)</h3>
+<p>TRUE if the field data matches the regex pattern. Send array with field/property name and pattern. Note: this function only handles the native properties of the message object. If you need to test whether an arbitrary email message header matches a regular expression pattern see the preg_match_header_array_key() detector function below.</p>
+<code>$arr = array('To','/spam_magnet/i');<br />
+if ($e->preg_match_field($arr)) $e->set_delete();</code>
+
+<h3>isset_header_array_key($key)</h3>
+<p>TRUE if any email header is listed in the email message. Note: header value could be empty.</p>
+<code>$e->isset_header_array_key();</code>
+
+<h3>preg_match_header_array_key($array)</h3>
+<p>TRUE if the email header value matches the regular expression. Takes an array as input. Value 1 is the Header name, Value 2 is the regex pattern.</p>
+<code>$arr = array('X-Sender','/CodeIgniter/i');<br />
+if ($e->preg_match_header_array_key($arr)) $e->undelete();</code>
+
+<h3>ttrue($arg)</h3>
+<p>Call this when you need a function to return TRUE. Useful for declarative programming and testing.</p>
+<code>$e->ttrue();</code>
+
+<h3>ffalse($arg)</h3>
+<p>Call this when you need a function to return FALSE. Useful for declarative programming and testing.</p>
+<code>$e->ffalse();</code>
+
+<h3>reflect($arg)</h3>
+<p>Call this when you need a function to return the argument you sent it (boolean). Useful for declarative programming and testing.</p>
+<code>$e->reflect();</code>
+
+<h2>Callback Functions</h2>
+
+<h3>set_delete($abort=FALSE)</h3>
+<p>Mark a message for deletion. Note: you must call expunge() in the same connection (usually at the end of the connection and not inside a message acquisition loop) to actually delete the message.</p>
+<code>$e->set_delete();</code>
+
+<h3>undelete()</h3>
+<p>If a message has been marked to delete during this connection it will be marked normal again.</p>
+<code>$e->undelete();</code>
+
+<h3>_print($d)</h3>
+<p>Convenience function to print data to the screen.</p>
+<code>$e->_print();</code>
+
+<h3>pr($data)</h3>
+<p>Print data to the screen using the _print() convenience function.</p>
+<code>$e->pr();</code>
+
+<h3>print_field($fn)</h3>
+<p>Print to screen just the value in a message object property.</p>
+<code>$e->print_field('date');</code>
+
+<h3>print_array($arr)</h3>
+<p>Print the array in a nice way. Uses 'pre' tags to render the array so it is readable.</p>
+<code>$e->print_array();</code>
+
+<h3>prepend_subject($prepend_string)</h3>
+<p>Add a string to the beginning of the subject property. This function changes the data in the message object.</p>
+<code>if ($e->in_to('spammagnet')) $e->prepend_subject('SPAM ');</code>
+
+<h2>Detector Meta Functions</h2>
+
+<h3>abort($action_array=FALSE)</h3>
+<p>Stop running any subsequent detectors.  Pass an optional $action_array with a command to run on aborting detectors. The only currently supported command for the action array is 'delete' - pass it as an array (e.g., array('delete'=>TRUE) ).</p>
+<code>$e->abort();</code>
+
+<h3>abort_if_previous($action_array=FALSE)</h3>
+<p>If the previous detector method returned TRUE then abort any subsequent detectors. See abort() method for information on the $action_array.</p>
+<code>$e->abort_if_previous();</code>
+
+<h2>Utility Functions</h2>
+
+<h3>message_count()</h3>
+<p>Return the count of messages for the current connection. This is a wrapper function that actually calls the peeker parent class to get the data.</p>
+<code>$e->message_count();</code>
+
+<h3>log_state($str)</h3>
+<p>Write a string to the internal peeker log. This is a wrapper function that passes the string to the Peeker parent.</p>
+<code>$e->log_state();</code>
+
+
+</div>
+<!-- END CONTENT -->
+
+
+<div id="footer">
+<p>
+
+<a href="#top">Top of Page</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
+<a href="peeker_toc.html">User Guide Home</a>
+</p>
+<p><a href="https://github.com/sophistry/peeker">Peeker</a> &nbsp;&middot;&nbsp; Copyright &#169; 2009-20xx &nbsp;&middot;&nbsp;</p>
+</div>
+
+</body>
+</html>
