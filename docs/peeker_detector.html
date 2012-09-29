@@ -1,0 +1,124 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Peeker Detector Class</title>
+
+<style type='text/css' media='all'>@import url('./userguide.css');</style>
+<link rel='stylesheet' type='text/css' media='all' href='../userguide.css' />
+
+<meta http-equiv='expires' content='-1' />
+<meta http-equiv= 'pragma' content='no-cache' />
+<meta name='robots' content='all' />
+
+</head>
+<body>
+
+<!-- START NAVIGATION -->
+<div id="nav"><div id="nav_inner"></div></div>
+<div id="nav2"><a name="top">&nbsp;</a></div>
+<div id="masthead">
+<table cellpadding="0" cellspacing="0" border="0" style="width:100%">
+<tr>
+<td><h1>Peeker Detector</h1></td>
+<td id="breadcrumb_right"></td>
+</tr>
+</table>
+</div>
+<!-- END NAVIGATION -->
+
+
+<!-- START BREADCRUMB -->
+<table cellpadding="0" cellspacing="0" border="0" style="width:100%">
+<tr>
+<td id="breadcrumb">
+<a href="https://github.com/sophistry/peeker">Project Home</a> &nbsp;&#8250;&nbsp;
+<a href="peeker_toc.html">User Guide Home</a> &nbsp;&#8250;&nbsp;
+Detector Class
+</td>
+</td>
+</tr>
+</table>
+<!-- END BREADCRUMB -->
+
+<br clear="all" />
+
+
+<!-- START CONTENT -->
+<div id="content">
+
+
+<h1>Detector Class</h1>
+
+<p>This class handles the email Detector data. In normal use you won't ever deal with this class. It is documented here for the intrepid.</p>
+
+<p class="important"><strong>Important:</strong>&nbsp; All of these functions are available through the <kbd>detector object</kbd> returned by the Peeker Detector Set class. Notated here as: $detector</p>
+	
+	
+<h2>Function Reference</h2>
+
+<h3>peeker_detector($dm=NULL, $dma=NULL, $cm=NULL, $cma=NULL, &$detector_set_parent=NULL)</h3>
+<p>Constructor</p>
+<code>$detector->peeker_detector();</code>
+
+<h3>set_detector($method)</h3>
+<p>Send the name of a function that returns TRUE or FALSE.</p>
+<code>$detector->set_detector('ttrue');</code>
+
+<h3>get_detector()</h3>
+<p>Get the detector function name as string.</p>
+<code>$detector->get_detector();</code>
+
+<h3>set_detector_arguments(&$array)</h3>
+<p>Send the arguments that the detector function needs.</p>
+<code>$detector->set_detector_arguments();</code>
+
+<h3>get_detector_arguments()</h3>
+<p>Get the detector arguments.</p>
+<code>$detector->get_detector_arguments();</code>
+
+<h3>set_callback($method)</h3>
+<p>Set the callback function to be called if the detector is TRUE.</p>
+<code>$detector->set_callback();</code>
+
+<h3>get_callback()</h3>
+<p>Get the callback function name as string.</p>
+<code>$detector->get_callback();</code>
+
+<h3>set_callback_arguments(&$array)</h3>
+<p>Send the arguments that the callback function needs.</p>
+<code>$detector->set_callback_arguments();</code>
+
+<h3>get_callback_arguments()</h3>
+<p>Get the callback arguments.</p>
+<code>$detector->get_callback_arguments();</code>
+
+<h3>check(&$obj)</h3>
+<p>Returns the result of the registered detector function.</p>
+<code>$detector->check()</code>
+
+<h3>trigger(&$obj)</h3>
+<p>Calls the registered callback function.</p>
+<code>$detector->trigger()</code>
+
+<h3>set_active($bool)</h3>
+<p>Toggle the active state for the detector object. Turns off both check() and trigger() functions - if inactive both functions return NULL.</p>
+<code>$detector->set_active()</code>
+
+
+</div>
+<!-- END CONTENT -->
+
+
+<div id="footer">
+<p>
+
+<a href="#top">Top of Page</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
+<a href="peeker_toc.html">User Guide Home</a>
+</p>
+<p><a href="https://github.com/sophistry/peeker">Peeker</a> &nbsp;&middot;&nbsp; Copyright &#169; 2009-20xx &nbsp;&middot;&nbsp;</p>
+</div>
+
+</body>
+</html>
