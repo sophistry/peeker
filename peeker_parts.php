@@ -195,7 +195,7 @@ class peeker_parts extends peeker_body{
 			// it is reported as type application, subtype OCTET-STREAM
 			// NOTE: text files with improper extension are not handled here!
 			// they are handled above and saved with their filename
-			elseif($part_def_obj->ifdisposition AND $part_def_obj->disposition == 'ATTACHMENT') 
+			elseif($part_def_obj->ifdisposition AND strtoupper($part_def_obj->disposition) == 'ATTACHMENT') 
 			{
 				// the filename is assumed to be in the first array item value
 				// this may be incorrect
