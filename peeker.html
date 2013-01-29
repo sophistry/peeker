@@ -222,7 +222,7 @@ $decoded_subject = $this->peeker->decode_mime($email->subject);</code>
 <h3>set_message_class($classname=filename minus extension)</h3>
 <p>Before getting messages from the mailserver you can tell the Peeker Class which class you want to use to hold and process the messages. This is useful for creating custom message handling methods. </p>
 <p>For example, the Peeker Header "spawn" class automatically MIME-decodes header parts. It also provides methods to access all the header fields.</p>
-<p class="important">Note: if you set a custom class, there must be a file with the name and a .php extension located in the same directory with the Peeker class.</p>
+<p class="important">Note: if you set a custom class, there must be a file with the name and a .php extension located in the same directory with the Peeker class. Additionally, you must use the message() method - not the get_message() method. This is because the get_message() method automatically loads the peeker_parts header class.</p>
 <code>//peeker_header.php file must be in same directory<br />
 $this->peeker->set_message_class('peeker_header');</code>
 <p>If you don't set the message class (and you don't use the get_message() function), Peeker uses PHP's native stdClass object for incoming emails.</p>
