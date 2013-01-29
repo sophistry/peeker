@@ -1,0 +1,143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Peeker Parts Class</title>
+
+<style type='text/css' media='all'>@import url('./userguide.css');</style>
+<link rel='stylesheet' type='text/css' media='all' href='../userguide.css' />
+
+<meta http-equiv='expires' content='-1' />
+<meta http-equiv= 'pragma' content='no-cache' />
+<meta name='robots' content='all' />
+
+</head>
+<body>
+
+<!-- START NAVIGATION -->
+<div id="nav"><div id="nav_inner"></div></div>
+<div id="nav2"><a name="top">&nbsp;</a></div>
+<div id="masthead">
+<table cellpadding="0" cellspacing="0" border="0" style="width:100%">
+<tr>
+<td><h1>Peeker Parts</h1></td>
+<td id="breadcrumb_right"></td>
+</tr>
+</table>
+</div>
+<!-- END NAVIGATION -->
+
+
+<!-- START BREADCRUMB -->
+<table cellpadding="0" cellspacing="0" border="0" style="width:100%">
+<tr>
+<td id="breadcrumb">
+<a href="https://github.com/sophistry/peeker">Project Home</a> &nbsp;&#8250;&nbsp;
+<a href="index.html">User Guide Home</a> &nbsp;&#8250;&nbsp;
+Parts Class
+</td>
+</td>
+</tr>
+</table>
+<!-- END BREADCRUMB -->
+
+<br clear="all" />
+
+
+<!-- START CONTENT -->
+<div id="content">
+
+
+<h1>Parts Class</h1>
+
+<p>This class handles the email Parts data.</p>
+
+<p class="important"><strong>Important:</strong>&nbsp; All of these functions are available through the <kbd>message object</kbd> returned by the Peeker class. Notated here as: $e</p>
+	
+	
+<h2>Function Reference</h2>
+
+<h3>parts()</h3>
+<p>Get the email and extract and decode all the parts into a nice array property parts_array. Calls body class body() function which calls the extract_parts() function. Note: you must call this ( or body() ) before any detectors will work.</p>
+<code>$e->parts();</code>
+
+<h3>get_parts_count()</h3>
+<p>Returns the count of parts found - not including meta parts like nodes - just real parts.</p>
+<code>$e->get_parts_count();</code>
+
+<h3>get_parts_array()</h3>
+<p>Returns the array of parts built by the parts() function.</p>
+<code>$e->get_parts_array();</code>
+
+<h2>Detectors - All Return TRUE or FALSE</h2>
+
+<h3>has_attachment()</h3>
+<p>TRUE if the message has an attachment.</p>
+<code>$e->has_attachment();</code>
+
+<h3>has_at_least_one_attachment_with_disposition($disp)</h3>
+<p>TRUE if the message has an attachment with specified disposition. Disposition can be inline or attachment. This is for detecting if an image has been attached to the message and it expects the client to render it inline without calling out to a webserver to get it.</p>
+<code>$e->has_at_least_one_attachment_with_disposition();</code>
+
+<h3>has_at_least_one_attachment($subtype)</h3>
+<p>TRUE if any attachment is of the specified subtype (e.g., jpg, pdf, xls, etc...). Function expects the 3-letter version of the file type.</p>
+<code>$e->has_at_least_one_attachment('jpg'); // detector for moblog</code>
+
+<h2>Callbacks</h2>
+
+<h3>insert_HTML($str)</h3>
+<p>Brute force. Looks for marker in HTML and inserts the string so it appears inside the html just before the closing body tags.</p>
+<code>$e->insert_HTML('&lt;br /&gt;This email is confidential');</code>
+
+<h3>insert_PLAIN($str)</h3>
+<p>Appends string to the end of the PLAIN text.</p>
+<code>$e->insert_PLAIN("--\nThis is my signature");</code>
+
+<h3>rewrite_html_transform_img_tags($base_url='')</h3>
+<p>Attempts to change the HTML that points to local resources (cid: style img tags) so that the HTML points to remote resources instead. Pass the base_url where the images will be. If it is not passed, the img tags will be re-written as relative paths.</p>
+<code>$e->rewrite_html_transform_img_tags();</code>
+
+<h3>render_first_jpeg()</h3>
+<p>Testing. Show the first jpeg attached to the email. Renders it to the browser (sends jpeg header) so it will not work if other data has already been sent.</p>
+<code>$e->render_first_jpeg();</code>
+
+<h3>save_header_string($file_name='header_string.txt')</h3>
+<p>Save the header string somewhere as a file.</p>
+<code>$e->save_header_string();</code>
+
+<h3>save_body_string($file_name='body_string.txt')</h3>
+<p>Save the raw, undecoded body string somewhere as a file.</p>
+<code>$e->save_body_string();</code>
+
+<h3>save_PLAIN($file_name='PLAIN.txt')</h3>
+<p>Save the PLAIN string somewhere as a text file.</p>
+<code>$e->save_PLAIN();</code>
+
+<h3>save_HTML($file_name='HTML.html')</h3>
+<p>Save the HTML string somewhere as an HTML file.</p>
+<code>$e->save_HTML();</code>
+
+<h3>save_all_attachments($dir=NULL)</h3>
+<p>Dumps all the attachments to the filesystem.</p>
+<code>$e->save_all_attachments();</code>
+
+<h3>get_file_name_array()</h3>
+<p>Returns the array containing all the filenames of the attached files.</p>
+<code>$e->get_file_name_array();</code>
+
+</div>
+<!-- END CONTENT -->
+
+
+<div id="footer">
+<p>
+
+<a href="#top">Top of Page</a>&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;
+<a href="index.html">User Guide Home</a>
+</p>
+<p><a href="https://github.com/sophistry/peeker">Peeker</a> &nbsp;&middot;&nbsp; Copyright &#169; 2009-20xx &nbsp;&middot;&nbsp;</p>
+</div>
+
+</body>
+</html>
