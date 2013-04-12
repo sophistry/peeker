@@ -447,7 +447,8 @@ class peeker extends peeker_connect{
 			else
 			{	
 				$charset = ( in_array( $mime_str->charset, $this->valid_mb_encoding_array ) ) ? $mime_str->charset : $def_charset;
-				$decoded_str .= mb_convert_encoding( $mime_str->text, $target_charset, $charset );
+				// TODO: this should also handle base64 encoded stings as well as quoted_printable
+				$decoded_str .= mb_convert_encoding(quoted_printable_decode( $mime_str->text ), $target_charset, $charset );
 			}
 		} 
 		return $decoded_str;
