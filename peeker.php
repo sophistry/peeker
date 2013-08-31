@@ -439,7 +439,7 @@ class peeker extends peeker_connect{
 		foreach ($mime_strs as $mime_str)
 		{
 			$mime_str->charset = strtolower($mime_str->charset);
-			if ( ( $mime_str === 'default' AND $charset_match ) OR 
+			if ( ( $mime_str->charset === 'default' AND $charset_match ) OR 
 				 ( $mime_str->charset === $target_charset ) )
 			{
 				$decoded_str .= $mime_str->text;
