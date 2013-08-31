@@ -138,6 +138,9 @@ class peeker_body extends peeker_header{
 				if ($sub_type === 'PLAIN')
 				{
 					$this->PLAIN = $body;
+					// see comment below in the HTML part
+					// uncomment this to convert all PLAIN parts to utf8
+					if (0) $this->PLAIN = $this->peek_parent->decode_mime($this->PLAIN);
 				}
 				
 				if ($sub_type === 'HTML')
@@ -148,6 +151,7 @@ class peeker_body extends peeker_header{
 					// to get inserted as UTF-8 into db but insert fails
 					// this should fix it, insert only inserts HTML 
 					// up to encoded char and then silently drops the rest
+					// uncomment this to convert all HTML parts to utf8
 					if (0) $this->HTML = $this->peek_parent->decode_mime($this->HTML);
 				}			
 			}
