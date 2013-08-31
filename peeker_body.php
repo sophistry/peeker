@@ -148,7 +148,7 @@ class peeker_body extends peeker_header{
 					// to get inserted as UTF-8 into db but insert fails
 					// this should fix it, insert only inserts HTML 
 					// up to encoded char and then silently drops the rest
-					if (0) $this->HTML = $this->decode_mime($this->HTML);
+					if (0) $this->HTML = $this->peek_parent->decode_mime($this->HTML);
 				}			
 			}
 			// parts_array filled by peek_mail_parts class
