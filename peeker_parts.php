@@ -97,8 +97,8 @@ class peeker_parts extends peeker_body{
 			$sub_type = strtoupper($part_def_obj->subtype);
 			
 			// type 0 is text
-			// handle everything else
-			if ($part_def_obj->type)
+			// handle everything else or XML files (which are type 0, but subtype XML)
+			if ($part_def_obj->type || $sub_type == 'XML')
 			{	
 				// first try dparameter value for the filename
 				// get an attachment, set filename to dparameter value
